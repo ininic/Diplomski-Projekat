@@ -20,12 +20,17 @@ class Router
 		{
 			cout << "------------------------" << endl;
 			cout << "         Router:" << endl;
-			char* str_tmp = convert_ipv4_decimal_to_string(this->ip_adress);
-			cout <<"ip adress:"<< str_tmp << endl;
-			free(str_tmp);
+			shared_ptr<string> str_tmp = convert_ipv4_decimal_to_string(this->ip_adress);
+			cout <<"ip adress: "<< *str_tmp << endl;
+			cout << "neighboring routers: ";
+			for (int i = 0; i < neighboring_routers.size(); i++)
+			{
+				cout << *convert_ipv4_decimal_to_string(neighboring_routers[i]) <<"  ";
+			}
+			cout << endl;
 		}
 
-		char* convert_ipv4_decimal_to_string(int ipv4_dec)
+		shared_ptr<string> convert_ipv4_decimal_to_string(int ipv4_dec)
 		{
 			char* ipv4_str_tmp = (char*)malloc(IPV4_ADR_MAX * sizeof(char));
 			unsigned char octet1, octet2, octet3, octet4;
@@ -53,7 +58,12 @@ class Router
 
 			ipv4_str_tmp[o1_size + o2_size + o3_size + o4_size + 3] = '\0';
 
-			return ipv4_str_tmp;
+			shared_ptr<string> str_ptr = make_shared<string>(ipv4_str_tmp);
+
+			free(ipv4_str_tmp); //funkcija odgovorna za oslobadjanje svoje memorije
+								//ono sto vraca vraca kao smart pointer, osigurano od
+								//curenja memorije
+			return str_ptr;
 		};
 
 	private:

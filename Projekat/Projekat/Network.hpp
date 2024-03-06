@@ -17,7 +17,7 @@ class Network
 
 			unsigned char octet_decimal_value;
 
-			char ipv4_str_tmp[IPV4_ADR_MAX];
+			char ipv4_str_tmp[IPV4_ADR_MAX + 1];
 			strcpy(ipv4_str_tmp, ipv4_str);
 
 			char* octet = strtok(ipv4_str_tmp, ".");
@@ -31,10 +31,6 @@ class Network
 
 			return decimal_value_ipv4;
 		}
-
-
-
-		
 
 
 		void print_routers()
@@ -71,17 +67,18 @@ class Network
 
                // ROUTER_LIST_EL* new_router = create_new_router_el(convert_ipv4_string_to_int(ip_adress_str));
                 Router newRouter(convert_ipv4_string_to_int(ip_adress_str));
-				this->routers.push_back(newRouter);
+				
 
                 fgets(new_line, 50, fp);
                 fgets(nbr_ip_adress_str, IPV4_ADR_MAX + 1, fp);
 
                 while (strcmp(nbr_ip_adress_str, "###\n") != 0)
                 {
+                    newRouter.neighboring_routers.push_back(convert_ipv4_string_to_int(nbr_ip_adress_str));
                     fgets(nbr_ip_adress_str, IPV4_ADR_MAX + 1, fp);
-                    //add to neighbor list
                 }
 
+                this->routers.push_back(newRouter);
                 fgets(end_line, 50, fp);
                 fgets(new_line, 50, fp);
             }
