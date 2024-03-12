@@ -9,6 +9,6 @@ int main()
     Network network;
 
     network.load_routers("config.txt");
-    network.print_routers();
+    network.print_routers_info();
 }
 

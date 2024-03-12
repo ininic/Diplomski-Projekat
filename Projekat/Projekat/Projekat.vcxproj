@@ -143,9 +143,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Interface.hpp" />
     <ClCompile Include="Projekat.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Conversions.hpp" />
+    <ClInclude Include="Device.hpp" />
     <ClInclude Include="Network.hpp" />
     <ClInclude Include="Router.hpp" />
   </ItemGroup>

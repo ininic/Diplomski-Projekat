@@ -18,12 +18,21 @@
     <ClCompile Include="Projekat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Interface.hpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Router.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Network.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Device.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Conversions.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

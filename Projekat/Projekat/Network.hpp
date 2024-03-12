@@ -2,87 +2,111 @@
 #ifndef NETWORK_DEF
 #define NETWORK_DEF
 
-#include "Router.hpp"
-#define IPV4_ADR_MAX 15 + 1
 
+#include <regex>
+#include <fstream>
+
+#include "Router.hpp"
+#include "Conversions.hpp"
+
+#define MAX_BUFF 159
+#define DELIMITER_1 "--------------------------"
+#define DELIMITER_2 "##########################"
 class Network
 {
 	public:
+       
 		vector<Router> routers;
 
-
-		int convert_ipv4_string_to_int(char* ipv4_str)
+        void print_routers_info()
 		{
-			int decimal_value_ipv4 = 0;
-
-			unsigned char octet_decimal_value;
-
-			char ipv4_str_tmp[IPV4_ADR_MAX + 1];
-			strcpy(ipv4_str_tmp, ipv4_str);
-
-			char* octet = strtok(ipv4_str_tmp, ".");
-
-			short i = 0;
-			while (octet != NULL) {
-				octet_decimal_value = atoi(octet);
-				((unsigned char*)(&decimal_value_ipv4))[i++] = octet_decimal_value;
-				octet = strtok(NULL, ".");
-			}
-
-			return decimal_value_ipv4;
-		}
-
-
-		void print_routers()
-		{
-			for (int i = 0; i < routers.size(); i++)
-			{
-				routers[i].print_info();
-			}
-		}
-
-        FILE* safe_fopen(const char* filename, const char* mode, int error_code) {
-            FILE* fp = fopen(filename, mode);
-            if (fp == NULL) {
-                printf("File '%s' can not be oppened!\n", filename);
-                exit(error_code);
+            cout << "Routers:" << endl;
+            for (size_t i = 0; i < this->routers.size(); i++)
+            {
+                this->routers[i].print_info();
             }
-            return fp;
-        }
+		}
 
 
         void load_routers(const char* filename)
         {
-            FILE* fp = safe_fopen(filename, "r", 111);
+            string delimiter_1(DELIMITER_1);
+            string delimiter_2(DELIMITER_2);
 
-            char new_line[50];
-            char end_line[50];
-            char ip_adress_str[IPV4_ADR_MAX + 1];
-            char nbr_ip_adress_str[IPV4_ADR_MAX + 1];
-            while (feof(fp) == 0)
-            {
+            fstream f(filename);
+            regex r1("router_id=(\\d+)");
+            regex r2("(\\d+).(\\d+).(\\d+).(\\d+)\\|(\\d+).(\\d+).(\\d+).(\\d+)\\|(\\d+)\\|(\\d+)\\|(\\d+)");
+            regex r3("(\\d+).(\\d+).(\\d+).(\\d+)");
+            smatch m;
+            char buff[MAX_BUFF] = { 0 };
 
-                fgets(ip_adress_str, IPV4_ADR_MAX + 1, fp);
-                ip_adress_str[strlen(ip_adress_str) - 1] = '\0';
+            while (!f.eof()) {
+                f.getline(buff, 159, '\n');
+                string s(buff);
 
-               // ROUTER_LIST_EL* new_router = create_new_router_el(convert_ipv4_string_to_int(ip_adress_str));
-                Router newRouter(convert_ipv4_string_to_int(ip_adress_str));
-				
+                int router_id;
+                int interface_addr_1;
+                int interface_addr_2;
+                int interface_id;
+                int nbr_router_id;
+                int device_addr;
+                short interface_type;
+                unsigned char o1, o2, o3, o4; 
+                string s1, s2, s3;
+                Router router;
 
-                fgets(new_line, 50, fp);
-                fgets(nbr_ip_adress_str, IPV4_ADR_MAX + 1, fp);
-
-                while (strcmp(nbr_ip_adress_str, "###\n") != 0)
+                if (regex_search(s, m, r1)) 
                 {
-                    newRouter.neighboring_routers.push_back(convert_ipv4_string_to_int(nbr_ip_adress_str));
-                    fgets(nbr_ip_adress_str, IPV4_ADR_MAX + 1, fp);
+                    router_id = atoi(m[1].str().c_str());
+                    router.router_id = router_id;
                 }
 
-                this->routers.push_back(newRouter);
-                fgets(end_line, 50, fp);
-                fgets(new_line, 50, fp);
-            }
+                do
+                {
+                    f.getline(buff, 159, '\n');
+                    s2.assign(buff);
+                    if (regex_search(s2, m, r2)) 
+                    {
+                        o1 = atoi(m[1].str().c_str());
+                        o2 = atoi(m[2].str().c_str());
+                        o3 = atoi(m[3].str().c_str());
+                        o4 = atoi(m[4].str().c_str());
+                        interface_addr_1 = Conversions::form_ipv4_addr(o1, o2, o3, o4);
 
+                        o1 = atoi(m[5].str().c_str());
+                        o2 = atoi(m[6].str().c_str());
+                        o3 = atoi(m[7].str().c_str());
+                        o4 = atoi(m[8].str().c_str());
+                        interface_addr_2 = Conversions::form_ipv4_addr(o1, o2, o3, o4);
+
+                        nbr_router_id = atoi(m[9].str().c_str());
+                        interface_id = atoi(m[10].str().c_str());
+                        interface_type = atoi(m[11].str().c_str());
+
+                        //int own_ip_addr, int nbr_ip_addr, int interface_id, int nbr_router_id, short type
+                        Interface interface(interface_addr_1, interface_addr_2, interface_id, nbr_router_id, interface_type);
+                        router.interfaces.push_back(interface);
+                    }                   
+                } while (s2.compare(delimiter_1) != 0);
+                
+                do
+                {
+                    f.getline(buff, 159, '\n');
+                    s3.assign(buff);
+                    if (regex_search(s3, m, r3)) {
+                        o1 = atoi(m[1].str().c_str());
+                        o2 = atoi(m[2].str().c_str());
+                        o3 = atoi(m[3].str().c_str());
+                        o4 = atoi(m[4].str().c_str());
+                        device_addr = Conversions::form_ipv4_addr(o1, o2, o3, o4);
+                        Device device(device_addr);
+                        router.devices.push_back(device);
+                    }
+                } while (s3.compare(delimiter_2) != 0);
+                    
+
+                routers.push_back(router);
+            }
         }
 };
 
