@@ -150,6 +150,7 @@
     <ClInclude Include="Conversions.hpp" />
     <ClInclude Include="Device.hpp" />
     <ClInclude Include="Network.hpp" />
+    <ClInclude Include="Route.hpp" />
     <ClInclude Include="Router.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

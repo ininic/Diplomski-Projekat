@@ -9,6 +9,7 @@ class Conversions
 {
 	public:
 
+		//Method for converting decimal ip_v4 addres to string respresentation
 		static string convert_ipv4_decimal_to_string(int ipv4_dec)
 		{
 			string ipv4_str;
@@ -24,6 +25,7 @@ class Conversions
 			return ipv4_str;
 		}
 
+		//Method that forms the ip addres from 4 octets
 		static int form_ipv4_addr(unsigned char octet1, unsigned char octet2, unsigned char octet3, unsigned char octet4)
 		{
 			int ipv4 = 0;

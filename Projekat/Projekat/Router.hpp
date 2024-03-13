@@ -6,6 +6,8 @@
 
 #include "Interface.hpp"
 #include "Device.hpp"
+#include "Route.hpp"
+
 
 using namespace std;
 class Router
@@ -14,6 +16,8 @@ class Router
 		int router_id;
 		vector<Interface> interfaces;
 		vector<Device> devices;
+		vector<Route> routing_table;
+
 		Router()
 		{
 			this->router_id = 0;
@@ -24,20 +28,49 @@ class Router
 			this->router_id = router_id;
 		}
 
+		//setting routes for devices in local area network
+		void init_routes()
+		{
+			int lan_interface_ip = 0;
+			for (int i = 0; i < this->interfaces.size(); i++)
+			{
+				if (this->interfaces[i].type == 0)
+				{
+					lan_interface_ip = this->interfaces[i].own_ip_addr;
+					break;
+				}
+			}
+
+			for (int i = 0; i < devices.size(); i++)
+			{
+				Route route(devices[i].ip_addr, lan_interface_ip, 0);
+				this->routing_table.push_back(route);
+			}
+		}
 
 		void print_info()
 		{
-			cout << "Router: " << this->router_id << endl;
-			cout << "Interfaces:" << endl;
+			cout << "############################" << endl << endl;
+			cout << "Router: " << this->router_id << endl<<endl;
+			cout << "Interfaces:" << endl<<endl;
 			for (size_t i = 0; i < this->interfaces.size(); i++)
 			{
 				this->interfaces[i].print_info();
 			}
-			cout << "Devices:" << endl;
+			cout << endl;
+			cout << "Devices:" << endl << endl;
 			for (size_t i = 0; i < this->devices.size(); i++)
 			{
 				this->devices[i].print_info();
 			}
+
+			cout << endl;
+			cout << "Routing table:" << endl << endl;
+			for (size_t i = 0; i < this->routing_table.size(); i++)
+			{
+				this->routing_table[i].print_info();
+			}
+			cout << endl;
 		}
 
 

@@ -20,14 +20,14 @@ class Network
 
         void print_routers_info()
 		{
-            cout << "Routers:" << endl;
+            cout << "Routers:" << endl << endl;
             for (size_t i = 0; i < this->routers.size(); i++)
             {
                 this->routers[i].print_info();
             }
 		}
 
-
+        //import data from configuration file
         void load_routers(const char* filename)
         {
             string delimiter_1(DELIMITER_1);
@@ -82,8 +82,7 @@ class Network
                         nbr_router_id = atoi(m[9].str().c_str());
                         interface_id = atoi(m[10].str().c_str());
                         interface_type = atoi(m[11].str().c_str());
-
-                        //int own_ip_addr, int nbr_ip_addr, int interface_id, int nbr_router_id, short type
+     
                         Interface interface(interface_addr_1, interface_addr_2, interface_id, nbr_router_id, interface_type);
                         router.interfaces.push_back(interface);
                     }                   
@@ -104,7 +103,7 @@ class Network
                     }
                 } while (s3.compare(delimiter_2) != 0);
                     
-
+                router.init_routes();
                 routers.push_back(router);
             }
         }

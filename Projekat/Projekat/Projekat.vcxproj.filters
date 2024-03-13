@@ -35,5 +35,8 @@
     <ClInclude Include="Conversions.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Route.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

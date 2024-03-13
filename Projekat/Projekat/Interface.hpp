@@ -31,7 +31,7 @@ class Interface
 			cout << "Own ip addres: " << Conversions::convert_ipv4_decimal_to_string(this->own_ip_addr) << endl;
 			cout << "Neighbor's ip address: " << Conversions::convert_ipv4_decimal_to_string(this->nbr_ip_addr) << endl;
 			cout << "Neighbor's router id:: " << this->nbr_router_id << endl;
-			cout << "Type: " << this->type << endl;
+			cout << "Type: " << this->type << endl << endl;
 		}
 	
 };
