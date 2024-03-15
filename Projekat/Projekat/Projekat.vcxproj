@@ -147,6 +147,7 @@
     <ClCompile Include="Projekat.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Comunication.hpp" />
     <ClInclude Include="Conversions.hpp" />
     <ClInclude Include="Device.hpp" />
     <ClInclude Include="Network.hpp" />

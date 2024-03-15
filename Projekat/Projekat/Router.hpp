@@ -8,6 +8,7 @@
 #include "Device.hpp"
 #include "Route.hpp"
 
+#define DEFAULT_SUBNET_MASK 0b11111111111111111111111100000000
 
 using namespace std;
 class Router
@@ -31,6 +32,7 @@ class Router
 		//setting routes for devices in local area network
 		void init_routes()
 		{
+			
 			int lan_interface_ip = 0;
 			for (int i = 0; i < this->interfaces.size(); i++)
 			{
@@ -43,9 +45,26 @@ class Router
 
 			for (int i = 0; i < devices.size(); i++)
 			{
-				Route route(devices[i].ip_addr, lan_interface_ip, 0);
-				this->routing_table.push_back(route);
+				int destination_ip = devices[i].ip_addr & DEFAULT_SUBNET_MASK;
+				if (!routing_table_contains(destination_ip))
+				{
+					Route route(destination_ip, DEFAULT_SUBNET_MASK, 0, lan_interface_ip, 0);
+					this->routing_table.push_back(route);
+				}
 			}
+		}
+
+		bool routing_table_contains(int destination_ip)
+		{
+			for (int i = 0; i < this->routing_table.size(); i++)
+			{
+				if (this->routing_table[i].destination_ip == destination_ip)
+				{
+					return true;
+				}
+			}
+
+			return false;
 		}
 
 		void print_info()
@@ -72,6 +91,7 @@ class Router
 			}
 			cout << endl;
 		}
+
 
 
 };

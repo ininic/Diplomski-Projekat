@@ -1,6 +1,7 @@
-﻿  Interface.hpp
-  Projekat.cpp
-C:\Users\Ivan\Desktop\Diplomski-Projekat\Projekat\Projekat\Router.hpp(35,22): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Ivan\Desktop\Diplomski-Projekat\Projekat\Projekat\Router.hpp(44,22): warning C4018: '<': signed/unsigned mismatch
-  Generating Code...
+﻿  Projekat.cpp
+C:\Users\Ivan\Desktop\Diplomski-Projekat\Projekat\Projekat\Router.hpp(37,22): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Ivan\Desktop\Diplomski-Projekat\Projekat\Projekat\Router.hpp(46,22): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Ivan\Desktop\Diplomski-Projekat\Projekat\Projekat\Router.hpp(59,22): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Ivan\Desktop\Diplomski-Projekat\Projekat\Projekat\Projekat.cpp(17,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Ivan\Desktop\Diplomski-Projekat\Projekat\Projekat\Projekat.cpp(23,23): warning C4018: '<': signed/unsigned mismatch
   Projekat.vcxproj -> C:\Users\Ivan\Desktop\Diplomski-Projekat\Projekat\Debug\Projekat.exe
