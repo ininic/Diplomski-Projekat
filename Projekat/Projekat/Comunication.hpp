@@ -21,7 +21,7 @@
 // for demonstration purposes we will hard code
 // local host ip adderss
 #define SERVER_IP_ADDERESS "127.0.0.1"
-#define DEFAULT_SUBNET_MASK 0b11111111111111111111111100000000
+
 
 
  mutex mtx;
@@ -45,16 +45,9 @@
 		static void send_recv(Router& router)
 		{
             mtx.lock();
-            map<int, bool> primljeno;
-            for (int i = 0; i < router.interfaces.size(); i++)
-            {
-                if (router.interfaces[i].nbr_router_id != 0)
-                {
-                    primljeno[router.interfaces[i].nbr_router_id] = false;
-                }
-            }
-       
+            map<int, bool> received;
             vector<string> messages;
+            reset_received(received, router);
 
             // Server address
             sockaddr_in serverAddress;
@@ -85,7 +78,7 @@
                 SOCK_DGRAM,   // datagram supporting socket
                 IPPROTO_UDP); // UDP
 
-        // check if socket creation succeeded
+            // check if socket creation succeeded
             if (serverSocket == INVALID_SOCKET)
             {
                 printf("Creating socket failed with error: %d\n", WSAGetLastError());
@@ -116,8 +109,8 @@
 
             printf("Simple UDP server started and waiting clients.\n");
 
-
             mtx.unlock();
+
             // Main server loop
             bool once = true;
 
@@ -126,13 +119,13 @@
             {
 
                 Sleep(SERVER_SLEEP_TIME);
+
                 if (once)
                 {
                     send_to_all_nbr(router);
                     once = false;
                 }
                 
-                //mtx.lock();
                 // clientAddress will be populated from recvfrom
                 sockaddr_in clientAddress;
                 memset(&clientAddress, 0, sizeof(sockaddr_in));
@@ -191,43 +184,26 @@
                 int clientPort = ntohs((u_short)clientAddress.sin_port);
 
                 printf("Client connected from ip: %s, port: %d, sent: %s.\n", ipAddress, clientPort, accessBuffer);            
-                // possible server-shutdown logic could be put here
 
                 messages.push_back(accessBuffer);
                 int id = atoi(accessBuffer);
                 //cout <<"********%%%%%%%%%***********"<< accessBuffer << endl;
-                primljeno[id] = true;
-                int brojac = primljeno.size() ;        
+                set_received(id, received);
+                int brojac = received.size() ;
                 for (int i = 0; i < router.interfaces.size(); i++)
                 {
-                    if (router.interfaces[i].nbr_router_id != 0 && primljeno[router.interfaces[i].nbr_router_id] == true  )
+                    if (router.interfaces[i].nbr_router_id != 0 && received[router.interfaces[i].nbr_router_id] == true  )
                     {
                         brojac--;
                     }
                 }
                
-                //cout << "Ruter " << router.router_id << " primio poruku od " << id << endl;
                 
                 if (brojac == 0)
                 {
-                    //mtx.lock();
                     //Kada je primio poruke od svih suseda, ruter zapocinje osvezavanje svoje tabele rutiranja
-                    cout << "Poruke koje je dobio ruter: " << router.router_id << endl;
-                    for (string s : messages)
-                    {
-                        cout << s << endl;
-                        update_table(router, s);
-                    }
-                   
-                    //mtx.unlock();
-                    //staviti u funkciju resetovanje mape prijema
-                    for (int i = 0; i < router.interfaces.size(); i++)
-                    {
-                        if (router.interfaces[i].nbr_router_id != 0)
-                        {
-                            primljeno[router.interfaces[i].nbr_router_id] = false;
-                        }
-                    }
+                    router.update(messages);       
+                    reset_received(received, router);
                     brojac_prijema--;
 
                     //nakon sto je primio poruke od svih, ponovo ce da posalje svoju tabelu svim susedima
@@ -259,10 +235,6 @@
             return ;
         		
 		}
-
-
-    
-
 
         static int send(int port, string poruka)
         {
@@ -299,10 +271,6 @@
                 return 1;
             }
 
-            //printf("Enter message from server:\n");
-
-            // Read string from user into outgoing buffer
-            //gets_s(outgoingBuffer, OUTGOING_BUFFER_SIZE);
             strcpy(outgoingBuffer, poruka.c_str());
 
             iResult = sendto(clientSocket,
@@ -319,9 +287,6 @@
                 WSACleanup();
                 return 1;
             }
-
-            //printf("Message sent to server, press any key to exit.\n");
-            //_getch();
 
             iResult = closesocket(clientSocket);
             if (iResult == SOCKET_ERROR)
@@ -345,7 +310,7 @@
         {
             string poruka;
 
-            poruka = form_a_message(router);
+            poruka = router.form_update_message();
             
             //wait a while for all router to start
             Sleep(SERVER_SLEEP_TIME);
@@ -360,121 +325,22 @@
             }                 
         }
 
-        static string form_a_message(Router& router)
+        static void reset_received(map<int, bool>& received, Router& router)
         {
-            string message("");
-
-            for (int i = 0; i < router.routing_table.size(); i++)
+            for (int i = 0; i < router.interfaces.size(); i++)
             {
-                message += to_string(router.router_id) + ":" + to_string(router.routing_table[i].destination_ip) + ":" + to_string(router.routing_table[i].distance);
-                if (i != router.routing_table.size() - 1)
+                if (router.interfaces[i].nbr_router_id != 0)
                 {
-                    message += "#";
+                    received[router.interfaces[i].nbr_router_id] = false;
                 }
             }
-            return message;
         }
 
-        static void update_table(Router& router, string message)
+        static void set_received(int id, map<int, bool>& received)
         {
-            vector<int> destionations_ip;
-            vector<int> distances;
-            vector<int> senders_id;
-
-            vector<string> strings;
-            customSplit(message, '#', strings);
-
-
-            //fstream f(filename);
-            regex r1("(\\d+):([-]?\\d+):(\\d+)");
-            smatch m;
-
-            for (string s : strings)
-            {
-               // cout << "$$$" << s << endl;
-                if (regex_search(s, m, r1))
-                {
-                    //cout << "URADJENO2" << atoi(m[2].str().c_str()) << endl;
-                    senders_id.push_back(atoi(m[1].str().c_str()));
-                    destionations_ip.push_back(atoi(m[2].str().c_str()));
-                    distances.push_back(atoi(m[3].str().c_str()));
-
-                }
-            }
-
-            for (int i = 0; i < destionations_ip.size(); i++)
-            {
-
-                int next_hop_ip;
-                int interface_ip;
-                for (Interface intf : router.interfaces)
-                {
-                    if (intf.nbr_router_id == senders_id[i])
-                    {
-                        interface_ip = intf.own_ip_addr;
-                        next_hop_ip = intf.nbr_ip_addr;
-                    }
-                }
-
-                //if destination is not in routing table, add it
-                if (!router.contains_in_table(destionations_ip[i]))
-                {
-                    //(int destination_ip, int subnet_mask, int next_hop_ip, int interface_ip, int distance)   
-                    
-
-                    Route r(destionations_ip[i], DEFAULT_SUBNET_MASK, next_hop_ip, interface_ip, distances[i] + 1);
-                    router.routing_table.push_back(r);
-                    //cout << "URADJENO" << endl;
-                }
-                else
-                {
-                    //Ako ruta vec postoji u tabeli rutiranja, treba proveriti da li je distanca
-                    //od posiljaoca plus 1 manja od trenutne udaljenosti
-                    for (int j = 0; j < router.routing_table.size(); j++)
-                    {
-                        if (router.routing_table[j].destination_ip == destionations_ip[i])
-                        {
-                            if (router.routing_table[j].distance > distances[i] + 1)
-                            {
-                                //Route r(destionations_ip[i], DEFAULT_SUBNET_MASK, next_hop_ip, interface_ip, distances[i] + 1);
-                                //router.routing_table.push_back(r);
-                                router.routing_table[j].distance = distances[i] + 1;
-                                router.routing_table[j].interface_ip = interface_ip;
-                                router.routing_table[j].next_hop_ip = next_hop_ip;
-                            }
-
-                            break;
-                        }
-                    }
-                }
-            }
-
-        }
-
-      
-
-
-
-        static void customSplit(string str, char separator, vector<string>& strings) 
-        {
-            int startIndex = 0, endIndex = 0;
-            for (int i = 0; i <= str.size(); i++) {
-
-                // If we reached the end of the word or the end of the input.
-                if (str[i] == separator || i == str.size()) {
-                    endIndex = i;
-                    string temp;
-                    temp.append(str, startIndex, endIndex - startIndex);
-                    strings.push_back(temp);
-                    startIndex = endIndex + 1;
-                }
-            }
+            received[id] = true;
         }
 };
-
-
-
-
 
 
 #endif COMUNICATION_DEF

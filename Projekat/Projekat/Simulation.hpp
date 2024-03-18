@@ -6,6 +6,7 @@
 #include "Network.hpp"
 #include "Comunication.hpp"
 using namespace std;
+
 class Simulation
 {
 	public: 
