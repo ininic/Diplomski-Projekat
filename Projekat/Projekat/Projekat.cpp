@@ -1,28 +1,20 @@
 
 #include <iostream>
-#include <thread> 
+
 
 #include "Network.hpp"
 #include "Comunication.hpp"
-
+#include "Simulation.hpp"
 
 int main()
 {
+
     Network network;
 
     network.load_routers("config.txt");
     // network.print_routers_info();
-    std::vector<std::thread> threads;
+    Simulation::run_simulation(network);
 
-    for (int i = 0; i < network.routers.size(); i++)
-    {
-        thread t(Comunication::send_recv, ref(network.routers[i]));
-        threads.push_back(move(t));
-    }
-
-    for (int i = 0; i < threads.size(); i++)
-    {
-        threads[i].join();
-    }
+    network.print_routers_info();
 
 }

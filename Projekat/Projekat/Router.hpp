@@ -92,6 +92,18 @@ class Router
 			cout << endl;
 		}
 
+		bool contains_in_table(int destination_ip) const
+		{
+			for (Route r : routing_table)
+			{
+				if (r.destination_ip == destination_ip)
+				{
+					return true;
+				}
+			}
+
+			return false;
+		}
 
 
 };

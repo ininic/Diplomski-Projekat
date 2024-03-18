@@ -1,7 +1,17 @@
-﻿  Projekat.cpp
+﻿  Interface.hpp
+  Projekat.cpp
 C:\Users\Ivan\Desktop\Diplomski-Projekat\Projekat\Projekat\Router.hpp(37,22): warning C4018: '<': signed/unsigned mismatch
 C:\Users\Ivan\Desktop\Diplomski-Projekat\Projekat\Projekat\Router.hpp(46,22): warning C4018: '<': signed/unsigned mismatch
 C:\Users\Ivan\Desktop\Diplomski-Projekat\Projekat\Projekat\Router.hpp(59,22): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Ivan\Desktop\Diplomski-Projekat\Projekat\Projekat\Projekat.cpp(17,23): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Ivan\Desktop\Diplomski-Projekat\Projekat\Projekat\Projekat.cpp(23,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Ivan\Desktop\Diplomski-Projekat\Projekat\Projekat\Comunication.hpp(49,31): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Ivan\Desktop\Diplomski-Projekat\Projekat\Projekat\Comunication.hpp(201,35): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Ivan\Desktop\Diplomski-Projekat\Projekat\Projekat\Comunication.hpp(224,39): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Ivan\Desktop\Diplomski-Projekat\Projekat\Projekat\Comunication.hpp(353,31): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Ivan\Desktop\Diplomski-Projekat\Projekat\Projekat\Comunication.hpp(367,31): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Ivan\Desktop\Diplomski-Projekat\Projekat\Projekat\Comunication.hpp(405,31): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Ivan\Desktop\Diplomski-Projekat\Projekat\Projekat\Comunication.hpp(433,39): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Ivan\Desktop\Diplomski-Projekat\Projekat\Projekat\Comunication.hpp(461,31): warning C4018: '<=': signed/unsigned mismatch
+C:\Users\Ivan\Desktop\Diplomski-Projekat\Projekat\Projekat\Simulation.hpp(17,31): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Ivan\Desktop\Diplomski-Projekat\Projekat\Projekat\Simulation.hpp(23,31): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
   Projekat.vcxproj -> C:\Users\Ivan\Desktop\Diplomski-Projekat\Projekat\Debug\Projekat.exe
