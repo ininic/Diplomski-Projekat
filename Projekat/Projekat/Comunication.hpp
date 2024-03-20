@@ -7,6 +7,8 @@
 #include <map>
 #include <winsock2.h>
 #include <conio.h>
+#include <random>
+#include <functional>
 
 #include "Router.hpp"
 
@@ -15,9 +17,9 @@
 #pragma warning( disable : 4996)
 #define SERVER_PORT 15000
 #define SERVER_SLEEP_TIME 50
-#define ACCESS_BUFFER_SIZE 1024
+#define ACCESS_BUFFER_SIZE 2048
 #define IP_ADDRESS_LEN 16
-#define OUTGOING_BUFFER_SIZE 1024
+#define OUTGOING_BUFFER_SIZE 2048
 // for demonstration purposes we will hard code
 // local host ip adderss
 #define SERVER_IP_ADDERESS "127.0.0.1"
@@ -25,7 +27,9 @@
 
 
  mutex mtx;
-
+ typedef chrono::high_resolution_clock hrc_t;
+ int primio = 0;
+ int poslao = 0;
  class Comunication
 {
 	public:
@@ -44,11 +48,18 @@
 	
 		static void send_recv(Router& router)
 		{
+
             mtx.lock();
+            hrc_t::time_point tp = hrc_t::now();   
             map<int, bool> received;
             vector<string> messages;
             reset_received(received, router);
 
+            default_random_engine generator;
+            hrc_t::duration d = hrc_t::now() - tp;
+            generator.seed(d.count());
+            uniform_real_distribution<double> dist(0, 50);
+            auto rd = std::bind(dist, generator);
             // Server address
             sockaddr_in serverAddress;
             // Server's socket
@@ -87,7 +98,7 @@
             }
 
             // Bind port number and local address to socket
-            iResult = bind(serverSocket, (LPSOCKADDR)&serverAddress, sizeof(serverAddress));
+            iResult = ::bind(serverSocket, (LPSOCKADDR)&serverAddress, sizeof(serverAddress));
 
             if (iResult == SOCKET_ERROR)
             {
@@ -108,17 +119,16 @@
             }
 
             printf("Simple UDP server started and waiting clients.\n");
-
-            mtx.unlock();
-
+        
             // Main server loop
             bool once = true;
 
             int brojac_prijema = 7;
+            chrono::high_resolution_clock::time_point start = chrono::high_resolution_clock::now();
+            mtx.unlock();
+            Sleep(SERVER_SLEEP_TIME);
             while (1)
-            {
-
-                Sleep(SERVER_SLEEP_TIME);
+            {        
 
                 if (once)
                 {
@@ -183,33 +193,38 @@
                 // little endian byte order
                 int clientPort = ntohs((u_short)clientAddress.sin_port);
 
-                printf("Client connected from ip: %s, port: %d, sent: %s.\n", ipAddress, clientPort, accessBuffer);            
+                //printf("Client connected from ip: %s, port: %d, sent: %s.\n", ipAddress, clientPort, accessBuffer);            
 
                 messages.push_back(accessBuffer);
                 int id = atoi(accessBuffer);
-                //cout <<"********%%%%%%%%%***********"<< accessBuffer << endl;
                 set_received(id, received);
-                int brojac = received.size() ;
+              
+                int brojac = received.size();
+
                 for (int i = 0; i < router.interfaces.size(); i++)
                 {
-                    if (router.interfaces[i].nbr_router_id != 0 && received[router.interfaces[i].nbr_router_id] == true  )
+                    if (router.interfaces[i].nbr_router_id != 0)
                     {
-                        brojac--;
+                        if (received[router.interfaces[i].nbr_router_id] == true)
+                        {
+                            brojac--;     
+                        }
                     }
                 }
-               
-                
+                           
                 if (brojac == 0)
                 {
                     //Kada je primio poruke od svih suseda, ruter zapocinje osvezavanje svoje tabele rutiranja
-                    router.update(messages);       
+                    router.update(messages);  
+                    router.export_routing_table(chrono::high_resolution_clock::now() - start);
                     reset_received(received, router);
                     brojac_prijema--;
 
                     //nakon sto je primio poruke od svih, ponovo ce da posalje svoju tabelu svim susedima
                     once = true;
+
                     if (brojac_prijema == 0)
-                    {
+                    {          
                         break;
                     }
                 }
@@ -231,7 +246,7 @@
                 return;
             }
 
-            printf("Server successfully shut down.\n");
+            printf("Server %d successfully shut down.\n",router.router_id);
             return ;
         		
 		}
@@ -309,18 +324,27 @@
         static void send_to_all_nbr(Router& router)
         {
             string poruka;
-
             poruka = router.form_update_message();
             
-            //wait a while for all router to start
-            Sleep(SERVER_SLEEP_TIME);
+            hrc_t::time_point tp = hrc_t::now();     
+            default_random_engine generator;
+            hrc_t::duration d = hrc_t::now() - tp;
+            generator.seed(d.count());
+            uniform_real_distribution<double> dist(50, 50);
+            auto rd = std::bind(dist, generator);
+
+            //Obavezno cekanje da bi prethodne poruke stigle na odrediste i bile obradjene
+            //pre novog "talasa" poruka, nije najsigurnije, potrebno dodati
+            //da server nakon nekog vremena krece u azuriranjie iako nije dobio poruku
+            //od svakog suseda
+
+            Sleep(200 + rd());
 
             for (int i = 0; i < router.interfaces.size(); i++)
             {
                 if (router.interfaces[i].type != 0)
                 {
                     send(SERVER_PORT + router.interfaces[i].nbr_router_id - 100, poruka);
-                    //cout << "Ruter " << router.router_id << " Poslao poruku na " << router.interfaces[i].nbr_router_id << endl;
                 }
             }                 
         }

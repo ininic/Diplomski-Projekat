@@ -3,13 +3,15 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <chrono>
+#include <ctime>
 
 #include "Interface.hpp"
 #include "Device.hpp"
 #include "Route.hpp"
 
-#define DEFAULT_SUBNET_MASK 0b11111111111111111111111100000000
-
+#define DEFAULT_SUBNET_MASK 0xffffff00
+#define DEFAULT_ZERO_SUBNET_MASK 0x00000000
 using namespace std;
 class Router
 {
@@ -32,24 +34,37 @@ class Router
 		//setting routes for devices in local area network
 		void init_routes()
 		{
-			
+			int next_hop_ip = 0;
 			int lan_interface_ip = 0;
+			bool default_route = false;
+			bool local_route = false;
 			for (int i = 0; i < this->interfaces.size(); i++)
 			{
-				if (this->interfaces[i].type == 0)
+				if (this->interfaces[i].type == 0 && !local_route)
 				{
 					lan_interface_ip = this->interfaces[i].own_ip_addr;
-					break;
-				}
-			}
 
-			for (int i = 0; i < devices.size(); i++)
-			{
-				int destination_ip = devices[i].ip_addr & DEFAULT_SUBNET_MASK;
-				if (!routing_table_contains(destination_ip))
+					int destination_ip = devices[0].ip_addr & DEFAULT_SUBNET_MASK;
+					if (!routing_table_contains(destination_ip))
+					{
+						Route route(destination_ip, DEFAULT_SUBNET_MASK, 0, lan_interface_ip, 0);
+						this->routing_table.push_back(route);
+						local_route = true;
+					}				
+				}
+
+				if(this->interfaces[i].type == 1 && !default_route)
 				{
-					Route route(destination_ip, DEFAULT_SUBNET_MASK, 0, lan_interface_ip, 0);
-					this->routing_table.push_back(route);
+					lan_interface_ip = this->interfaces[i].own_ip_addr;
+					next_hop_ip = this->interfaces[i].nbr_ip_addr;
+					Route route_p(0, DEFAULT_ZERO_SUBNET_MASK, next_hop_ip, lan_interface_ip, 0);
+					this->routing_table.push_back(route_p);
+					default_route = true;
+				}
+
+				if (local_route && default_route)
+				{
+					break;
 				}
 			}
 		}
@@ -191,11 +206,8 @@ class Router
 
 		void update(vector<string>& messages)
 		{
-			//cout << "Poruke koje je dobio ruter: " << router.router_id << endl;
 			for (string s : messages)
 			{
-				//cout << s << endl;
-				//update_table(router, s);
 				this->update_table(s);
 			}
 		}
@@ -206,14 +218,40 @@ class Router
 
 			for (int i = 0; i < this->routing_table.size(); i++)
 			{
-				message += to_string(this->router_id) + ":" + to_string(this->routing_table[i].destination_ip) + ":" + to_string(this->routing_table[i].distance);
-				if (i != this->routing_table.size() - 1)
+				if (this->routing_table[i].destination_ip != 0)
 				{
-					message += "#";
+					message += to_string(this->router_id) + ":" + to_string(this->routing_table[i].destination_ip) + ":" + to_string(this->routing_table[i].distance);
+					if (i != this->routing_table.size() - 1)
+					{
+						message += "#";
+					}
 				}
 			}
 			return message;
 		}
+
+		void export_routing_table(chrono::high_resolution_clock::duration d)
+		{
+			ofstream outputFile;
+			outputFile.open(to_string(this->router_id) + ".txt", ios_base::app); // create a new output file or overwrite an existing one
+
+			if (outputFile.is_open()) { // check if the file was opened successfully
+				outputFile <<chrono::duration_cast<chrono::milliseconds>(d).count() << endl;
+				for (Route r : this->routing_table)
+				{
+					outputFile << setw(13) << left << "Destination: " << setw(15) << left << Conversions::convert_ipv4_decimal_to_string(r.destination_ip)
+						<< setw(13) << left << "Subnet mask: " << setw(16) << left  << Conversions::convert_ipv4_decimal_to_string(r.subnet_mask)
+						<< setw(10) << left << "Next hop: " << setw(15) << left<< ((r.next_hop_ip != 0) ? Conversions::convert_ipv4_decimal_to_string(r.next_hop_ip) : "On-link")
+						<< setw(11) << left << "Interface: " << setw(15) << left << Conversions::convert_ipv4_decimal_to_string(r.interface_ip)
+						<< setw(11) << left << " Distance: " << setw(5) << left << r.distance << endl;
+				}
+			}
+			else 
+			{
+				std::cerr << "Error opening file\n";
+			}
+		}
+
 };
 
 

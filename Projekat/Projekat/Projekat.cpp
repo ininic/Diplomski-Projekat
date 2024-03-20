@@ -16,5 +16,7 @@ int main()
 
     Simulation::run_simulation(network);
 
+
+
     network.print_routers_info();
 }

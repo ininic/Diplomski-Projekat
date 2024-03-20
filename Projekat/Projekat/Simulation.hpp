@@ -2,9 +2,11 @@
 #define SIMULATION_DEF
 
 #include <thread> 
+#include <filesystem>
 
 #include "Network.hpp"
 #include "Comunication.hpp"
+
 using namespace std;
 
 class Simulation
@@ -14,6 +16,8 @@ class Simulation
 		static void run_simulation(Network& network)
 		{
             vector<thread> threads;
+
+            remove_files(network);
 
             for (int i = 0; i < network.routers.size(); i++)
             {
@@ -27,6 +31,16 @@ class Simulation
             }
         
 		}
+
+        static void remove_files(Network& network)
+        {
+            for (int i = 0; i < network.routers.size(); i++)
+            {
+                string fname = to_string(network.routers[i].router_id) + ".txt";
+                remove(fname.c_str());
+            }
+
+        }
 
 };
 
