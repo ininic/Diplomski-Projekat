@@ -252,6 +252,23 @@ class Router
 			}
 		}
 
+		string form_ip_package(int destionation_ip, int source_ip, string data)
+		{
+			//nesto drugo
+			return "999#" + to_string(destionation_ip) + "#" + to_string(source_ip) + "#" + data;
+		}
+
+		bool exists_in_devices(int device_ip)
+		{
+			for (Device d : this->devices)
+			{
+				if (d.ip_addr == device_ip)
+				{
+					return true;
+				}
+			}
+			return false;
+		}
 };
 
 

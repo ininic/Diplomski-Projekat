@@ -23,7 +23,8 @@
 // for demonstration purposes we will hard code
 // local host ip adderss
 #define SERVER_IP_ADDERESS "127.0.0.1"
-
+#define ITERATIONS 9
+#define MODE_INDICATOR 999
 
 
  mutex mtx;
@@ -46,10 +47,12 @@
             return true;
         }
 	
-		static void send_recv(Router& router)
-		{
-
+        //if source_ip and destination_ip have zero values, it is a "updating routing table" mode
+        //otherwise, it is a "sending data" mode 
+		static void send_recv(Router& router, int source_ip, int destination_ip)
+		{ 
             mtx.lock();
+            int mode = source_ip + destination_ip;
             hrc_t::time_point tp = hrc_t::now();   
             map<int, bool> received;
             vector<string> messages;
@@ -121,19 +124,32 @@
             printf("Simple UDP server started and waiting clients.\n");
         
             // Main server loop
+            bool send_ready = true;
             bool once = true;
+            int iteration = ITERATIONS;
 
-            int brojac_prijema = 7;
             chrono::high_resolution_clock::time_point start = chrono::high_resolution_clock::now();
             mtx.unlock();
-            Sleep(SERVER_SLEEP_TIME);
+            //Sleep(SERVER_SLEEP_TIME);
             while (1)
             {        
+              
+                /*Ako je source_ip medju uredjajima rutera, i ako je prosao odredjen broj iteracija
+               Ruter salje poruku na odrediste
+               */
+                if(router.exists_in_devices(source_ip) && iteration < 4 && once)            
+                {
+                    cout << "source: " << Conversions::convert_ipv4_decimal_to_string(source_ip) << endl;
+                    string message = router.form_ip_package(destination_ip, source_ip, "Aloha");
+                    send_to_destinaion(destination_ip, message, router);
+                    once = false;
+                }
 
-                if (once)
+
+                if (send_ready)
                 {
                     send_to_all_nbr(router);
-                    once = false;
+                    send_ready = false;
                 }
                 
                 // clientAddress will be populated from recvfrom
@@ -195,39 +211,51 @@
 
                 //printf("Client connected from ip: %s, port: %d, sent: %s.\n", ipAddress, clientPort, accessBuffer);            
 
-                messages.push_back(accessBuffer);
                 int id = atoi(accessBuffer);
-                set_received(id, received);
-              
-                int brojac = received.size();
-
-                for (int i = 0; i < router.interfaces.size(); i++)
+                if (id == MODE_INDICATOR)
                 {
-                    if (router.interfaces[i].nbr_router_id != 0)
+                    //Mode mi i ne treba, odgovarace se na poruku kao ip samo ako pocinje sa 999
+                    //Ruter koji je oznacen source, ce poslati poruku nakon N iteracija formiranja tabele
+                    //primljena ip poruka, potrebno proslediti ili ispisati sadrzaj
+                    forward(accessBuffer, router);
+                   
+                }
+                else
+                {
+                    messages.push_back(accessBuffer);
+
+                    set_received(id, received);
+
+                    int recv_counter = received.size();
+
+                    for (int i = 0; i < router.interfaces.size(); i++)
                     {
-                        if (received[router.interfaces[i].nbr_router_id] == true)
+                        if (router.interfaces[i].nbr_router_id != 0)
                         {
-                            brojac--;     
+                            if (received[router.interfaces[i].nbr_router_id] == true)
+                            {
+                                recv_counter--;
+                            }
                         }
                     }
-                }
-                           
-                if (brojac == 0)
-                {
-                    //Kada je primio poruke od svih suseda, ruter zapocinje osvezavanje svoje tabele rutiranja
-                    router.update(messages);  
-                    router.export_routing_table(chrono::high_resolution_clock::now() - start);
-                    reset_received(received, router);
-                    brojac_prijema--;
 
-                    //nakon sto je primio poruke od svih, ponovo ce da posalje svoju tabelu svim susedima
-                    once = true;
+                    if (recv_counter == 0)
+                    {
+                        //Kada je primio poruke od svih suseda, ruter zapocinje osvezavanje svoje tabele rutiranja
+                        router.update(messages);
+                        router.export_routing_table(chrono::high_resolution_clock::now() - start);
+                        reset_received(received, router);
+                        iteration--;
 
-                    if (brojac_prijema == 0)
-                    {          
-                        break;
+                        //nakon sto je primio poruke od svih, ponovo ce da posalje svoju tabelu svim susedima
+                        send_ready = true;
+
+                        if (iteration == 0)
+                        {
+                            break;
+                        }
                     }
-                }
+                }            
             }
 
             // if we are here, it means that server is shutting down
@@ -320,6 +348,64 @@
             return 0;
         }
 
+        static void forward(string message, Router& router)
+        {
+            regex r1("(\\d+)#([-]?\\d+)#([-]?\\d+)#(.)");
+            smatch m;
+            int destination_ip = 0;
+            if (regex_search(message, m, r1))
+            {
+                destination_ip = atoi(m[2].str().c_str());
+            }
+            int lan_ip;
+
+            for (Interface i : router.interfaces)
+            {
+                if (i.type == 0)
+                {
+                  
+                    lan_ip = i.own_ip_addr;
+                    cout << "Router: " << router.router_id << endl;
+                    cout << "lan: " << Conversions::convert_ipv4_decimal_to_string(lan_ip)<< endl;
+                }
+            }
+
+  
+            if ((DEFAULT_SUBNET_MASK & destination_ip) == (DEFAULT_SUBNET_MASK & lan_ip))
+            {              
+                cout << "Dest: " << Conversions::convert_ipv4_decimal_to_string(destination_ip) << endl;
+                cout << "Stigla poruka: " << message << endl;   
+               
+            }
+            else
+            {
+                send_to_destinaion(destination_ip, message, router);
+            }
+        }
+
+        static void send_to_destinaion(int destination_ip, string message, Router& router)
+        {
+            int next_hop = 0;
+
+            for (Route r : router.routing_table)
+            {
+                if (r.destination_ip == (DEFAULT_SUBNET_MASK & destination_ip))
+                {
+                    next_hop = r.next_hop_ip;
+                    break;
+                }
+            }       
+            cout << "Dest: "<< Conversions::convert_ipv4_decimal_to_string(destination_ip)<<endl;
+            cout << "Next hop : "<< Conversions::convert_ipv4_decimal_to_string(next_hop)<<endl<<endl;
+            for (Interface i : router.interfaces)
+            {
+                if (i.nbr_ip_addr == next_hop)
+                {
+                    send(SERVER_PORT + i.nbr_router_id - 100, message);
+                    break;
+                }
+            }         
+        }
         
         static void send_to_all_nbr(Router& router)
         {

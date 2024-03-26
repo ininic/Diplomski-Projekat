@@ -21,8 +21,17 @@ class Simulation
 
             for (int i = 0; i < network.routers.size(); i++)
             {
-                thread t(Comunication::send_recv, ref(network.routers[i]));
-                threads.push_back(move(t));
+                if (i == 8)
+                {
+                    thread t(Comunication::send_recv, ref(network.routers[i]), network.routers[i].devices[0].ip_addr, network.routers[0].devices[0].ip_addr);
+                    threads.push_back(move(t));
+                }
+                else
+                {
+                    thread t(Comunication::send_recv, ref(network.routers[i]), 0, 0);
+                    threads.push_back(move(t));
+                }
+               
             }
 
             for (int i = 0; i < threads.size(); i++)

@@ -1,70 +1,92 @@
-326
+259
 Destination: 0.0.0.0        Subnet mask: 0.0.0.0         Next hop: 223.1.10.1     Interface: 223.1.10.2      Distance: 0    
 Destination: 223.1.3.0      Subnet mask: 255.255.255.0   Next hop: On-link        Interface: 223.1.3.7       Distance: 0    
-Destination: 223.1.9.0      Subnet mask: 255.255.255.0   Next hop: 223.1.18.2     Interface: 223.1.18.1      Distance: 1    
-Destination: 223.1.2.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 1    
 Destination: 223.1.4.0      Subnet mask: 255.255.255.0   Next hop: 223.1.10.1     Interface: 223.1.10.2      Distance: 1    
-724
+Destination: 223.1.2.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 1    
+Destination: 223.1.9.0      Subnet mask: 255.255.255.0   Next hop: 223.1.18.2     Interface: 223.1.18.1      Distance: 1    
+656
 Destination: 0.0.0.0        Subnet mask: 0.0.0.0         Next hop: 223.1.10.1     Interface: 223.1.10.2      Distance: 0    
 Destination: 223.1.3.0      Subnet mask: 255.255.255.0   Next hop: On-link        Interface: 223.1.3.7       Distance: 0    
-Destination: 223.1.9.0      Subnet mask: 255.255.255.0   Next hop: 223.1.18.2     Interface: 223.1.18.1      Distance: 1    
-Destination: 223.1.2.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 1    
 Destination: 223.1.4.0      Subnet mask: 255.255.255.0   Next hop: 223.1.10.1     Interface: 223.1.10.2      Distance: 1    
+Destination: 223.1.2.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 1    
+Destination: 223.1.9.0      Subnet mask: 255.255.255.0   Next hop: 223.1.18.2     Interface: 223.1.18.1      Distance: 1    
 Destination: 223.1.5.0      Subnet mask: 255.255.255.0   Next hop: 223.1.10.1     Interface: 223.1.10.2      Distance: 2    
-Destination: 223.1.8.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 2    
+Destination: 223.1.8.0      Subnet mask: 255.255.255.0   Next hop: 223.1.18.2     Interface: 223.1.18.1      Distance: 2    
 Destination: 223.1.1.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 2    
-1009
+935
 Destination: 0.0.0.0        Subnet mask: 0.0.0.0         Next hop: 223.1.10.1     Interface: 223.1.10.2      Distance: 0    
 Destination: 223.1.3.0      Subnet mask: 255.255.255.0   Next hop: On-link        Interface: 223.1.3.7       Distance: 0    
-Destination: 223.1.9.0      Subnet mask: 255.255.255.0   Next hop: 223.1.18.2     Interface: 223.1.18.1      Distance: 1    
-Destination: 223.1.2.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 1    
 Destination: 223.1.4.0      Subnet mask: 255.255.255.0   Next hop: 223.1.10.1     Interface: 223.1.10.2      Distance: 1    
+Destination: 223.1.2.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 1    
+Destination: 223.1.9.0      Subnet mask: 255.255.255.0   Next hop: 223.1.18.2     Interface: 223.1.18.1      Distance: 1    
 Destination: 223.1.5.0      Subnet mask: 255.255.255.0   Next hop: 223.1.10.1     Interface: 223.1.10.2      Distance: 2    
-Destination: 223.1.8.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 2    
+Destination: 223.1.8.0      Subnet mask: 255.255.255.0   Next hop: 223.1.18.2     Interface: 223.1.18.1      Distance: 2    
 Destination: 223.1.1.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 2    
-Destination: 223.1.6.0      Subnet mask: 255.255.255.0   Next hop: 223.1.10.1     Interface: 223.1.10.2      Distance: 3    
 Destination: 223.1.7.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 3    
-1294
+Destination: 223.1.6.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 3    
+1356
 Destination: 0.0.0.0        Subnet mask: 0.0.0.0         Next hop: 223.1.10.1     Interface: 223.1.10.2      Distance: 0    
 Destination: 223.1.3.0      Subnet mask: 255.255.255.0   Next hop: On-link        Interface: 223.1.3.7       Distance: 0    
-Destination: 223.1.9.0      Subnet mask: 255.255.255.0   Next hop: 223.1.18.2     Interface: 223.1.18.1      Distance: 1    
-Destination: 223.1.2.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 1    
 Destination: 223.1.4.0      Subnet mask: 255.255.255.0   Next hop: 223.1.10.1     Interface: 223.1.10.2      Distance: 1    
+Destination: 223.1.2.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 1    
+Destination: 223.1.9.0      Subnet mask: 255.255.255.0   Next hop: 223.1.18.2     Interface: 223.1.18.1      Distance: 1    
 Destination: 223.1.5.0      Subnet mask: 255.255.255.0   Next hop: 223.1.10.1     Interface: 223.1.10.2      Distance: 2    
-Destination: 223.1.8.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 2    
+Destination: 223.1.8.0      Subnet mask: 255.255.255.0   Next hop: 223.1.18.2     Interface: 223.1.18.1      Distance: 2    
 Destination: 223.1.1.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 2    
-Destination: 223.1.6.0      Subnet mask: 255.255.255.0   Next hop: 223.1.10.1     Interface: 223.1.10.2      Distance: 3    
 Destination: 223.1.7.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 3    
-1716
+Destination: 223.1.6.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 3    
+1656
 Destination: 0.0.0.0        Subnet mask: 0.0.0.0         Next hop: 223.1.10.1     Interface: 223.1.10.2      Distance: 0    
 Destination: 223.1.3.0      Subnet mask: 255.255.255.0   Next hop: On-link        Interface: 223.1.3.7       Distance: 0    
-Destination: 223.1.9.0      Subnet mask: 255.255.255.0   Next hop: 223.1.18.2     Interface: 223.1.18.1      Distance: 1    
-Destination: 223.1.2.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 1    
 Destination: 223.1.4.0      Subnet mask: 255.255.255.0   Next hop: 223.1.10.1     Interface: 223.1.10.2      Distance: 1    
+Destination: 223.1.2.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 1    
+Destination: 223.1.9.0      Subnet mask: 255.255.255.0   Next hop: 223.1.18.2     Interface: 223.1.18.1      Distance: 1    
 Destination: 223.1.5.0      Subnet mask: 255.255.255.0   Next hop: 223.1.10.1     Interface: 223.1.10.2      Distance: 2    
-Destination: 223.1.8.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 2    
+Destination: 223.1.8.0      Subnet mask: 255.255.255.0   Next hop: 223.1.18.2     Interface: 223.1.18.1      Distance: 2    
 Destination: 223.1.1.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 2    
-Destination: 223.1.6.0      Subnet mask: 255.255.255.0   Next hop: 223.1.10.1     Interface: 223.1.10.2      Distance: 3    
 Destination: 223.1.7.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 3    
-2082
+Destination: 223.1.6.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 3    
+2028
 Destination: 0.0.0.0        Subnet mask: 0.0.0.0         Next hop: 223.1.10.1     Interface: 223.1.10.2      Distance: 0    
 Destination: 223.1.3.0      Subnet mask: 255.255.255.0   Next hop: On-link        Interface: 223.1.3.7       Distance: 0    
-Destination: 223.1.9.0      Subnet mask: 255.255.255.0   Next hop: 223.1.18.2     Interface: 223.1.18.1      Distance: 1    
-Destination: 223.1.2.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 1    
 Destination: 223.1.4.0      Subnet mask: 255.255.255.0   Next hop: 223.1.10.1     Interface: 223.1.10.2      Distance: 1    
+Destination: 223.1.2.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 1    
+Destination: 223.1.9.0      Subnet mask: 255.255.255.0   Next hop: 223.1.18.2     Interface: 223.1.18.1      Distance: 1    
 Destination: 223.1.5.0      Subnet mask: 255.255.255.0   Next hop: 223.1.10.1     Interface: 223.1.10.2      Distance: 2    
-Destination: 223.1.8.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 2    
+Destination: 223.1.8.0      Subnet mask: 255.255.255.0   Next hop: 223.1.18.2     Interface: 223.1.18.1      Distance: 2    
 Destination: 223.1.1.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 2    
-Destination: 223.1.6.0      Subnet mask: 255.255.255.0   Next hop: 223.1.10.1     Interface: 223.1.10.2      Distance: 3    
 Destination: 223.1.7.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 3    
-2518
+Destination: 223.1.6.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 3    
+2491
 Destination: 0.0.0.0        Subnet mask: 0.0.0.0         Next hop: 223.1.10.1     Interface: 223.1.10.2      Distance: 0    
 Destination: 223.1.3.0      Subnet mask: 255.255.255.0   Next hop: On-link        Interface: 223.1.3.7       Distance: 0    
-Destination: 223.1.9.0      Subnet mask: 255.255.255.0   Next hop: 223.1.18.2     Interface: 223.1.18.1      Distance: 1    
-Destination: 223.1.2.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 1    
 Destination: 223.1.4.0      Subnet mask: 255.255.255.0   Next hop: 223.1.10.1     Interface: 223.1.10.2      Distance: 1    
+Destination: 223.1.2.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 1    
+Destination: 223.1.9.0      Subnet mask: 255.255.255.0   Next hop: 223.1.18.2     Interface: 223.1.18.1      Distance: 1    
 Destination: 223.1.5.0      Subnet mask: 255.255.255.0   Next hop: 223.1.10.1     Interface: 223.1.10.2      Distance: 2    
-Destination: 223.1.8.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 2    
+Destination: 223.1.8.0      Subnet mask: 255.255.255.0   Next hop: 223.1.18.2     Interface: 223.1.18.1      Distance: 2    
 Destination: 223.1.1.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 2    
-Destination: 223.1.6.0      Subnet mask: 255.255.255.0   Next hop: 223.1.10.1     Interface: 223.1.10.2      Distance: 3    
 Destination: 223.1.7.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 3    
+Destination: 223.1.6.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 3    
+2940
+Destination: 0.0.0.0        Subnet mask: 0.0.0.0         Next hop: 223.1.10.1     Interface: 223.1.10.2      Distance: 0    
+Destination: 223.1.3.0      Subnet mask: 255.255.255.0   Next hop: On-link        Interface: 223.1.3.7       Distance: 0    
+Destination: 223.1.4.0      Subnet mask: 255.255.255.0   Next hop: 223.1.10.1     Interface: 223.1.10.2      Distance: 1    
+Destination: 223.1.2.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 1    
+Destination: 223.1.9.0      Subnet mask: 255.255.255.0   Next hop: 223.1.18.2     Interface: 223.1.18.1      Distance: 1    
+Destination: 223.1.5.0      Subnet mask: 255.255.255.0   Next hop: 223.1.10.1     Interface: 223.1.10.2      Distance: 2    
+Destination: 223.1.8.0      Subnet mask: 255.255.255.0   Next hop: 223.1.18.2     Interface: 223.1.18.1      Distance: 2    
+Destination: 223.1.1.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 2    
+Destination: 223.1.7.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 3    
+Destination: 223.1.6.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 3    
+3430
+Destination: 0.0.0.0        Subnet mask: 0.0.0.0         Next hop: 223.1.10.1     Interface: 223.1.10.2      Distance: 0    
+Destination: 223.1.3.0      Subnet mask: 255.255.255.0   Next hop: On-link        Interface: 223.1.3.7       Distance: 0    
+Destination: 223.1.4.0      Subnet mask: 255.255.255.0   Next hop: 223.1.10.1     Interface: 223.1.10.2      Distance: 1    
+Destination: 223.1.2.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 1    
+Destination: 223.1.9.0      Subnet mask: 255.255.255.0   Next hop: 223.1.18.2     Interface: 223.1.18.1      Distance: 1    
+Destination: 223.1.5.0      Subnet mask: 255.255.255.0   Next hop: 223.1.10.1     Interface: 223.1.10.2      Distance: 2    
+Destination: 223.1.8.0      Subnet mask: 255.255.255.0   Next hop: 223.1.18.2     Interface: 223.1.18.1      Distance: 2    
+Destination: 223.1.1.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 2    
+Destination: 223.1.7.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 3    
+Destination: 223.1.6.0      Subnet mask: 255.255.255.0   Next hop: 223.1.20.1     Interface: 223.1.20.2      Distance: 3    

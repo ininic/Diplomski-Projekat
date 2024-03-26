@@ -18,5 +18,5 @@ int main()
 
 
 
-    network.print_routers_info();
+  //  network.print_routers_info();
 }
