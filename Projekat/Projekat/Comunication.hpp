@@ -24,8 +24,9 @@
 // local host ip adderss
 #define SERVER_IP_ADDERESS "127.0.0.1"
 #define ITERATIONS 9
+#define MIN_ITERATIONS 5
 #define MODE_INDICATOR 999
-
+ 
 
  mutex mtx;
  typedef chrono::high_resolution_clock hrc_t;
@@ -126,7 +127,7 @@
             // Main server loop
             bool send_ready = true;
             bool once = true;
-            int iteration = ITERATIONS;
+            int iteration = 0;
 
             chrono::high_resolution_clock::time_point start = chrono::high_resolution_clock::now();
             mtx.unlock();
@@ -135,11 +136,12 @@
             {        
               
                 /*Ako je source_ip medju uredjajima rutera, i ako je prosao odredjen broj iteracija
-               Ruter salje poruku na odrediste
+                  Ruter salje poruku na odrediste
                */
-                if(router.exists_in_devices(source_ip) && iteration < 4 && once)            
+                if(router.exists_in_devices(source_ip) && iteration > MIN_ITERATIONS && once)
                 {
-                    cout << "source: " << Conversions::convert_ipv4_decimal_to_string(source_ip) << endl;
+                    cout << "Router: " << router.router_id << endl;
+                    cout << "Source: " << Conversions::convert_ipv4_decimal_to_string(source_ip) << endl;
                     string message = router.form_ip_package(destination_ip, source_ip, "Aloha");
                     send_to_destinaion(destination_ip, message, router);
                     once = false;
@@ -214,11 +216,10 @@
                 int id = atoi(accessBuffer);
                 if (id == MODE_INDICATOR)
                 {
-                    //Mode mi i ne treba, odgovarace se na poruku kao ip samo ako pocinje sa 999
+                    //Na poruku kao ip se odgovara samo ako pocinje sa 999
                     //Ruter koji je oznacen source, ce poslati poruku nakon N iteracija formiranja tabele
                     //primljena ip poruka, potrebno proslediti ili ispisati sadrzaj
-                    forward(accessBuffer, router);
-                   
+                    parse_message(accessBuffer, router);
                 }
                 else
                 {
@@ -245,12 +246,12 @@
                         router.update(messages);
                         router.export_routing_table(chrono::high_resolution_clock::now() - start);
                         reset_received(received, router);
-                        iteration--;
+                        iteration++;
 
                         //nakon sto je primio poruke od svih, ponovo ce da posalje svoju tabelu svim susedima
                         send_ready = true;
 
-                        if (iteration == 0)
+                        if (iteration == ITERATIONS)
                         {
                             break;
                         }
@@ -348,7 +349,7 @@
             return 0;
         }
 
-        static void forward(string message, Router& router)
+        static void parse_message(string message, Router& router)
         {
             regex r1("(\\d+)#([-]?\\d+)#([-]?\\d+)#(.)");
             smatch m;
@@ -366,45 +367,55 @@
                   
                     lan_ip = i.own_ip_addr;
                     cout << "Router: " << router.router_id << endl;
-                    cout << "lan: " << Conversions::convert_ipv4_decimal_to_string(lan_ip)<< endl;
+                    cout << "Lan: " << Conversions::convert_ipv4_decimal_to_string(lan_ip)<< endl;
                 }
             }
 
-  
-            if ((DEFAULT_SUBNET_MASK & destination_ip) == (DEFAULT_SUBNET_MASK & lan_ip))
-            {              
-                cout << "Dest: " << Conversions::convert_ipv4_decimal_to_string(destination_ip) << endl;
-                cout << "Stigla poruka: " << message << endl;   
-               
-            }
-            else
-            {
-                send_to_destinaion(destination_ip, message, router);
-            }
+            send_to_destinaion(destination_ip, message, router);
+
         }
 
         static void send_to_destinaion(int destination_ip, string message, Router& router)
         {
             int next_hop = 0;
-
+            bool find = false;
             for (Route r : router.routing_table)
             {
                 if (r.destination_ip == (DEFAULT_SUBNET_MASK & destination_ip))
                 {
                     next_hop = r.next_hop_ip;
+                    find = true;
                     break;
                 }
             }       
+            //Ukoliko ruter ne pronalazi destinaciju u svojoj tebeli rutiranja, paket se salje
+            //na predefinisanu sledecu destinaciju koja se cuva prva u tabeli rutiranja
+            if (!find)
+            {
+                next_hop = router.routing_table[0].next_hop_ip;
+            }
+
             cout << "Dest: "<< Conversions::convert_ipv4_decimal_to_string(destination_ip)<<endl;
             cout << "Next hop : "<< Conversions::convert_ipv4_decimal_to_string(next_hop)<<endl<<endl;
-            for (Interface i : router.interfaces)
+
+            //Ukoliko je odrediste na koja treba proslediti poruku u lokalnoj mrezi
+            //prosledjivanje paketa kroz mrezu se ovde zavrsaca
+            if (next_hop == 0)
             {
-                if (i.nbr_ip_addr == next_hop)
+                cout << "Message received: " << message << endl;
+            }
+            else
+            {
+                for (Interface i : router.interfaces)
                 {
-                    send(SERVER_PORT + i.nbr_router_id - 100, message);
-                    break;
+                    if (i.nbr_ip_addr == next_hop)
+                    {
+                        send(SERVER_PORT + i.nbr_router_id - 100, message);
+                        break;
+                    }
                 }
-            }         
+            }
+           
         }
         
         static void send_to_all_nbr(Router& router)
