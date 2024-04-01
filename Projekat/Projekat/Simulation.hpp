@@ -49,6 +49,8 @@ class Simulation
                 remove(fname.c_str());
             }
 
+            remove ("packet_path.txt");
+
         }
 
 };

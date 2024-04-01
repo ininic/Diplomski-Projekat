@@ -71,9 +71,9 @@ class Router
 
 		bool routing_table_contains(int destination_ip)
 		{
-			for (int i = 0; i < this->routing_table.size(); i++)
+			for (Route r : routing_table)
 			{
-				if (this->routing_table[i].destination_ip == destination_ip)
+				if (r.destination_ip == destination_ip)
 				{
 					return true;
 				}
@@ -107,18 +107,6 @@ class Router
 			cout << endl;
 		}
 
-		bool contains_in_table(int destination_ip) const
-		{
-			for (Route r : routing_table)
-			{
-				if (r.destination_ip == destination_ip)
-				{
-					return true;
-				}
-			}
-
-			return false;
-		}
 			
 		void update_table(string message)
 		{
@@ -135,14 +123,11 @@ class Router
 
 			for (string s : strings)
 			{
-				// cout << "$$$" << s << endl;
 				if (regex_search(s, m, r1))
 				{
-					//cout << "URADJENO2" << atoi(m[2].str().c_str()) << endl;
 					senders_id.push_back(atoi(m[1].str().c_str()));
 					destionations_ip.push_back(atoi(m[2].str().c_str()));
 					distances.push_back(atoi(m[3].str().c_str()));
-
 				}
 			}
 
@@ -161,15 +146,16 @@ class Router
 				}
 
 				//if destination is not in routing table, add it
-				if (!this->contains_in_table(destionations_ip[i]))
+				if (!this->routing_table_contains(destionations_ip[i]))
 				{
 					Route r(destionations_ip[i], DEFAULT_SUBNET_MASK, next_hop_ip, interface_ip, distances[i] + 1);
 					this->routing_table.push_back(r);
 				}
 				else
 				{
-					//Ako ruta vec postoji u tabeli rutiranja, treba proveriti da li je distanca
-					//od posiljaoca plus 1 manja od trenutne udaljenosti
+					/*If the route already exists in the routing table, 
+					it is necessary to check whether the distance 
+					from the sender plus 1 is less than the current distance*/
 					for (int j = 0; j < this->routing_table.size(); j++)
 					{
 						if (this->routing_table[j].destination_ip == destionations_ip[i])
@@ -233,7 +219,7 @@ class Router
 		void export_routing_table(chrono::high_resolution_clock::duration d)
 		{
 			ofstream outputFile;
-			outputFile.open(to_string(this->router_id) + ".txt", ios_base::app); // create a new output file or overwrite an existing one
+			outputFile.open(to_string(this->router_id) + ".txt", ios_base::app); // create a new output file or append an existing one
 
 			if (outputFile.is_open()) { // check if the file was opened successfully
 				outputFile <<chrono::duration_cast<chrono::milliseconds>(d).count() << endl;
@@ -252,9 +238,9 @@ class Router
 			}
 		}
 
-		string form_ip_package(int destionation_ip, int source_ip, string data)
+		
+		string form_ip_packet(int destionation_ip, int source_ip, string data)
 		{
-			//nesto drugo
 			return "999#" + to_string(destionation_ip) + "#" + to_string(source_ip) + "#" + data;
 		}
 
@@ -269,6 +255,8 @@ class Router
 			}
 			return false;
 		}
+
+		
 };
 
 

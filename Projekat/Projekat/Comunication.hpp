@@ -20,18 +20,16 @@
 #define ACCESS_BUFFER_SIZE 2048
 #define IP_ADDRESS_LEN 16
 #define OUTGOING_BUFFER_SIZE 2048
-// for demonstration purposes we will hard code
-// local host ip adderss
+
 #define SERVER_IP_ADDERESS "127.0.0.1"
-#define ITERATIONS 9
+#define ITERATIONS 10
 #define MIN_ITERATIONS 5
 #define MODE_INDICATOR 999
  
 
  mutex mtx;
  typedef chrono::high_resolution_clock hrc_t;
- int primio = 0;
- int poslao = 0;
+
  class Comunication
 {
 	public:
@@ -55,15 +53,17 @@
             mtx.lock();
             int mode = source_ip + destination_ip;
             hrc_t::time_point tp = hrc_t::now();   
+
             map<int, bool> received;
             vector<string> messages;
             reset_received(received, router);
-
             default_random_engine generator;
+
             hrc_t::duration d = hrc_t::now() - tp;
             generator.seed(d.count());
             uniform_real_distribution<double> dist(0, 50);
             auto rd = std::bind(dist, generator);
+
             // Server address
             sockaddr_in serverAddress;
             // Server's socket
@@ -131,7 +131,7 @@
 
             chrono::high_resolution_clock::time_point start = chrono::high_resolution_clock::now();
             mtx.unlock();
-            //Sleep(SERVER_SLEEP_TIME);
+            Sleep(SERVER_SLEEP_TIME);
             while (1)
             {        
               
@@ -140,10 +140,13 @@
                */
                 if(router.exists_in_devices(source_ip) && iteration > MIN_ITERATIONS && once)
                 {
-                    cout << "Router: " << router.router_id << endl;
+                    string log_message = "Router: " + to_string(router.router_id) + "\n";
+                    log_message += "Source: " + Conversions::convert_ipv4_decimal_to_string(source_ip) + "\n";
+                    string message = router.form_ip_packet(destination_ip, source_ip, "Aloha");
+
+                    cout << "\n\nRouter: " << router.router_id << endl;
                     cout << "Source: " << Conversions::convert_ipv4_decimal_to_string(source_ip) << endl;
-                    string message = router.form_ip_package(destination_ip, source_ip, "Aloha");
-                    send_to_destinaion(destination_ip, message, router);
+                    send_to_destinaion(destination_ip, message, router, log_message);
                     once = false;
                 }
 
@@ -370,12 +373,13 @@
                     cout << "Lan: " << Conversions::convert_ipv4_decimal_to_string(lan_ip)<< endl;
                 }
             }
-
-            send_to_destinaion(destination_ip, message, router);
+            string log_message = "Router: " + to_string(router.router_id) + "\n";
+            log_message += "Lan: " + Conversions::convert_ipv4_decimal_to_string(lan_ip)+ "\n";
+            send_to_destinaion(destination_ip, message, router, log_message);
 
         }
 
-        static void send_to_destinaion(int destination_ip, string message, Router& router)
+        static void send_to_destinaion(int destination_ip, string message, Router& router, string log_message)
         {
             int next_hop = 0;
             bool find = false;
@@ -395,14 +399,26 @@
                 next_hop = router.routing_table[0].next_hop_ip;
             }
 
-            cout << "Dest: "<< Conversions::convert_ipv4_decimal_to_string(destination_ip)<<endl;
-            cout << "Next hop : "<< Conversions::convert_ipv4_decimal_to_string(next_hop)<<endl<<endl;
+            log_message += "Destination: " + Conversions::convert_ipv4_decimal_to_string(destination_ip)+"\n";
+            cout << "Destination: " << Conversions::convert_ipv4_decimal_to_string(destination_ip) << endl;
+            if (next_hop != 0)
+            {
+                log_message += "Next hop : " + Conversions::convert_ipv4_decimal_to_string(next_hop) + "\n";
+                cout << "Next hop : " << Conversions::convert_ipv4_decimal_to_string(next_hop) << endl;
+            }
+            else
+            {
+                log_message += "Next hop : On-Link\n";
+                cout << "Next hop : On-Link" << endl;
+            }
 
             //Ukoliko je odrediste na koja treba proslediti poruku u lokalnoj mrezi
             //prosledjivanje paketa kroz mrezu se ovde zavrsaca
             if (next_hop == 0)
             {
-                cout << "Message received: " << message << endl;
+                log_message += "Message received! \n";
+                save_ip_packet_path(log_message);
+                cout << "Message received: " << message << endl<<endl<<endl;
             }
             else
             {
@@ -410,7 +426,12 @@
                 {
                     if (i.nbr_ip_addr == next_hop)
                     {
+                        log_message += "Interface: " + Conversions::convert_ipv4_decimal_to_string(i.own_ip_addr) + "\n";
+                        log_message += "----------------------\n";
+                        cout << "Interface: "<< Conversions::convert_ipv4_decimal_to_string(i.own_ip_addr)<< endl;
+                        cout<<"----------------------"<<endl;
                         send(SERVER_PORT + i.nbr_router_id - 100, message);
+                        save_ip_packet_path(log_message);
                         break;
                     }
                 }
@@ -461,6 +482,24 @@
         {
             received[id] = true;
         }
+
+        static void save_ip_packet_path(string message)
+        {
+            ofstream outputFile;
+            outputFile.open("packet_path.txt", ios_base::app); // create a new output file or append an existing one
+
+            if (outputFile.is_open())
+            {
+          
+                outputFile << message;
+
+            }
+            else
+            {
+                std::cerr << "Error opening file\n";
+            }
+        }
+
 };
 
 
