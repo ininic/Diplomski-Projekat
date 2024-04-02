@@ -7,6 +7,11 @@
 #include "Network.hpp"
 #include "Comunication.hpp"
 
+#define SOURCE_IP_ADDR "223.1.4.1"
+#define SOURCE_ROUTER_ID 104
+#define DESTINATION_IP_ADDR "223.1.1.1"
+
+
 using namespace std;
 
 class Simulation
@@ -21,9 +26,9 @@ class Simulation
 
             for (int i = 0; i < network.routers.size(); i++)
             {
-                if (i == 5)
+                if (network.routers[i].router_id == SOURCE_ROUTER_ID)
                 {
-                    thread t(Comunication::send_recv, ref(network.routers[i]), network.routers[i].devices[0].ip_addr, network.routers[8].devices[0].ip_addr);
+                    thread t(Comunication::send_recv, ref(network.routers[i]), Conversions::convert_string_tp_ipv4_decimal(SOURCE_IP_ADDR), Conversions::convert_string_tp_ipv4_decimal(DESTINATION_IP_ADDR));
                     threads.push_back(move(t));
                 }
                 else

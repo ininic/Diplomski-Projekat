@@ -37,6 +37,4 @@ class Interface
 };
 
 
-
-
 #endif INTERFACE_DEF

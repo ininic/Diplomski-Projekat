@@ -12,7 +12,9 @@
 
 #define DEFAULT_SUBNET_MASK 0xffffff00
 #define DEFAULT_ZERO_SUBNET_MASK 0x00000000
+
 using namespace std;
+
 class Router
 {
 	public:

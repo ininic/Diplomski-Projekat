@@ -1,8 +1,6 @@
 #ifndef COMUNICATION_DEF
 #define COMUNICATION_DEF
 
-
-
 #include <mutex>      
 #include <map>
 #include <winsock2.h>
@@ -135,8 +133,8 @@
             while (1)
             {        
               
-                /*Ako je source_ip medju uredjajima rutera, i ako je prosao odredjen broj iteracija
-                  Ruter salje poruku na odrediste
+                /*If source_ip is a "router's device", and if there were enough iterations
+                  router sends message to the destination
                */
                 if(router.exists_in_devices(source_ip) && iteration > MIN_ITERATIONS && once)
                 {
@@ -214,14 +212,12 @@
                 // little endian byte order
                 int clientPort = ntohs((u_short)clientAddress.sin_port);
 
-                //printf("Client connected from ip: %s, port: %d, sent: %s.\n", ipAddress, clientPort, accessBuffer);            
-
                 int id = atoi(accessBuffer);
                 if (id == MODE_INDICATOR)
                 {
-                    //Na poruku kao ip se odgovara samo ako pocinje sa 999
-                    //Ruter koji je oznacen source, ce poslati poruku nakon N iteracija formiranja tabele
-                    //primljena ip poruka, potrebno proslediti ili ispisati sadrzaj
+                    //Router parse and forward message with MODE_INDICATOR header
+                    //If destination in message is one of devices in this router's LAN
+                    //message will be printed
                     parse_message(accessBuffer, router);
                 }
                 else
@@ -245,13 +241,14 @@
 
                     if (recv_counter == 0)
                     {
-                        //Kada je primio poruke od svih suseda, ruter zapocinje osvezavanje svoje tabele rutiranja
+                        //If router has received message from all its neighbours, it starts 
+                        //updating its routing table
                         router.update(messages);
                         router.export_routing_table(chrono::high_resolution_clock::now() - start);
                         reset_received(received, router);
                         iteration++;
 
-                        //nakon sto je primio poruke od svih, ponovo ce da posalje svoju tabelu svim susedima
+                        //after receiving messages from everyone, it will resend its table to all neighbors
                         send_ready = true;
 
                         if (iteration == ITERATIONS)
@@ -392,8 +389,10 @@
                     break;
                 }
             }       
-            //Ukoliko ruter ne pronalazi destinaciju u svojoj tebeli rutiranja, paket se salje
-            //na predefinisanu sledecu destinaciju koja se cuva prva u tabeli rutiranja
+
+            //If router cant find destination in its routing table, packet is forwarding
+            //to the predefined next destination which is stored in first row in routing table
+  
             if (!find)
             {
                 next_hop = router.routing_table[0].next_hop_ip;
@@ -412,8 +411,9 @@
                 cout << "Next hop : On-Link" << endl;
             }
 
-            //Ukoliko je odrediste na koja treba proslediti poruku u lokalnoj mrezi
-            //prosledjivanje paketa kroz mrezu se ovde zavrsaca
+            //If packet destinatin is in local network, packet forwarding
+            //through the network ends here
+
             if (next_hop == 0)
             {
                 log_message += "Message received! \n";
@@ -451,10 +451,10 @@
             uniform_real_distribution<double> dist(50, 50);
             auto rd = std::bind(dist, generator);
 
-            //Obavezno cekanje da bi prethodne poruke stigle na odrediste i bile obradjene
-            //pre novog "talasa" poruka, nije najsigurnije, potrebno dodati
-            //da server nakon nekog vremena krece u azuriranjie iako nije dobio poruku
-            //od svakog suseda
+            //!!!
+            //Router waits some time for all previously sent messages to be delivered
+            //This can be more deterministic if every router also have timer 
+            //or keeps record who sent message to whom
 
             Sleep(200 + rd());
 

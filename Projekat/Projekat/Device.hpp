@@ -22,9 +22,4 @@ class Device
 };
 
 
-
-
-
-
-
 #endif DEVICE_DEF

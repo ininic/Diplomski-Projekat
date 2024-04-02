@@ -2,6 +2,8 @@
 #define CONVERSIONS_DEF
 
 #include<string>
+#include <regex>
+#include <fstream>
 
 using namespace std;
 
@@ -36,6 +38,24 @@ class Conversions
 			((unsigned char*)&ipv4)[0] = octet4;
 
 			return ipv4;
+		}
+
+		static int convert_string_tp_ipv4_decimal(string ipv4_str)
+		{
+			regex r("(\\d+).(\\d+).(\\d+).(\\d+)");
+			smatch m;
+			unsigned char o1, o2, o3, o4;
+			int ipv4_decimal = 0;
+			if (regex_search(ipv4_str, m, r))
+			{
+				o1 = atoi(m[1].str().c_str());
+				o2 = atoi(m[2].str().c_str());
+				o3 = atoi(m[3].str().c_str());
+				o4 = atoi(m[4].str().c_str());
+				ipv4_decimal = Conversions::form_ipv4_addr(o1, o2, o3, o4);
+			}
+
+			return ipv4_decimal;
 		}
 
 
