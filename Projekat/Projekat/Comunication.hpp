@@ -23,7 +23,7 @@
 #define ITERATIONS 10
 #define MIN_ITERATIONS 5
 #define MODE_INDICATOR 999
- 
+#define IP_MESSAGE "Aloha!"
 
  mutex mtx;
  typedef chrono::high_resolution_clock hrc_t;
@@ -140,7 +140,7 @@
                 {
                     string log_message = "Router: " + to_string(router.router_id) + "\n";
                     log_message += "Source: " + Conversions::convert_ipv4_decimal_to_string(source_ip) + "\n";
-                    string message = router.form_ip_packet(destination_ip, source_ip, "Aloha");
+                    string message = router.form_ip_packet(destination_ip, source_ip, IP_MESSAGE);
 
                     cout << "\n\nRouter: " << router.router_id << endl;
                     cout << "Source: " << Conversions::convert_ipv4_decimal_to_string(source_ip) << endl;
@@ -418,7 +418,10 @@
             {
                 log_message += "Message received! \n";
                 save_ip_packet_path(log_message);
-                cout << "Message received: " << message << endl<<endl<<endl;
+
+                vector<string> msg_parts;
+                router.customSplit(message, '#', msg_parts);
+                cout << "Message received: " << msg_parts[3] << endl<<endl<<endl;
             }
             else
             {
