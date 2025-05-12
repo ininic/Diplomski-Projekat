@@ -35,7 +35,7 @@ class Network
 
             fstream f(filename);
             regex r1("router_id=(\\d+)");
-            regex r2("(\\d+).(\\d+).(\\d+).(\\d+)\\|(\\d+).(\\d+).(\\d+).(\\d+)\\|(\\d+)\\|(\\d+)\\|(\\d+)");
+            regex r2("(\\d+).(\\d+).(\\d+).(\\d+)\\|(\\d+).(\\d+).(\\d+).(\\d+)\\|(\\d+)\\|(\\d+)\\|(\\d+)\\|(\\d+)");
             regex r3("(\\d+).(\\d+).(\\d+).(\\d+)");
             smatch m;
             char buff[MAX_BUFF] = { 0 };
@@ -50,6 +50,7 @@ class Network
                 int interface_id;
                 int nbr_router_id;
                 int device_addr;
+                int link_cost;
                 short interface_type;
                 unsigned char o1, o2, o3, o4; 
                 string s1, s2, s3;
@@ -82,8 +83,8 @@ class Network
                         nbr_router_id = atoi(m[9].str().c_str());
                         interface_id = atoi(m[10].str().c_str());
                         interface_type = atoi(m[11].str().c_str());
-     
-                        Interface interface(interface_addr_1, interface_addr_2, interface_id, nbr_router_id, interface_type);
+                        link_cost = atoi(m[12].str().c_str());
+                        Interface interface(interface_addr_1, interface_addr_2, interface_id, nbr_router_id, interface_type, link_cost);
                         router.interfaces.push_back(interface);
                     }                   
                 } while (s2.compare(delimiter_1) != 0);
@@ -106,6 +107,7 @@ class Network
                 router.init_routes();
                 routers.push_back(router);
             }
+            f.close();
         }
 };
 

@@ -46,13 +46,16 @@ class Router
 				{
 					lan_interface_ip = this->interfaces[i].own_ip_addr;
 
-					int destination_ip = devices[0].ip_addr & DEFAULT_SUBNET_MASK;
-					if (!routing_table_contains(destination_ip))
+					if (!this->devices.empty())
 					{
-						Route route(destination_ip, DEFAULT_SUBNET_MASK, 0, lan_interface_ip, 0);
-						this->routing_table.push_back(route);
-						local_route = true;
-					}				
+						int destination_ip = devices[0].ip_addr & DEFAULT_SUBNET_MASK;
+						if (!routing_table_contains(destination_ip))
+						{
+							Route route(destination_ip, DEFAULT_SUBNET_MASK, 0, lan_interface_ip, 0);
+							this->routing_table.push_back(route);
+							local_route = true;
+						}
+					}
 				}
 
 				if(this->interfaces[i].type == 1 && !default_route)
@@ -138,19 +141,23 @@ class Router
 
 				int next_hop_ip;
 				int interface_ip;
+				int cost = 0;
 				for (Interface intf : this->interfaces)
 				{
 					if (intf.nbr_router_id == senders_id[i])
 					{
 						interface_ip = intf.own_ip_addr;
 						next_hop_ip = intf.nbr_ip_addr;
+						cost = intf.link_cost;
+						break;
 					}
 				}
+			
 
 				//if destination is not in routing table, add it
 				if (!this->routing_table_contains(destionations_ip[i]))
-				{
-					Route r(destionations_ip[i], DEFAULT_SUBNET_MASK, next_hop_ip, interface_ip, distances[i] + 1);
+				{	
+					Route r(destionations_ip[i], DEFAULT_SUBNET_MASK, next_hop_ip, interface_ip, distances[i] + cost);
 					this->routing_table.push_back(r);
 				}
 				else
@@ -162,9 +169,9 @@ class Router
 					{
 						if (this->routing_table[j].destination_ip == destionations_ip[i])
 						{
-							if (this->routing_table[j].distance > distances[i] + 1)
+							if (this->routing_table[j].distance > distances[i] + cost)
 							{
-								this->routing_table[j].distance = distances[i] + 1;
+								this->routing_table[j].distance = distances[i] + cost;
 								this->routing_table[j].interface_ip = interface_ip;
 								this->routing_table[j].next_hop_ip = next_hop_ip;
 							}
@@ -204,6 +211,11 @@ class Router
 		{
 			string message("");
 
+			if (this->routing_table.empty())
+			{
+				//dodati nesto za slucaj da ruter nema nijedan uredjaj...
+			}
+
 			for (int i = 0; i < this->routing_table.size(); i++)
 			{
 				if (this->routing_table[i].destination_ip != 0)
@@ -231,13 +243,15 @@ class Router
 						<< setw(13) << left << "Subnet mask: " << setw(16) << left  << Conversions::convert_ipv4_decimal_to_string(r.subnet_mask)
 						<< setw(10) << left << "Next hop: " << setw(15) << left<< ((r.next_hop_ip != 0) ? Conversions::convert_ipv4_decimal_to_string(r.next_hop_ip) : "On-link")
 						<< setw(11) << left << "Interface: " << setw(15) << left << Conversions::convert_ipv4_decimal_to_string(r.interface_ip)
-						<< setw(11) << left << " Distance: " << setw(5) << left << r.distance << endl;
+						<< setw(11) << left << " Metric: " << setw(5) << left << r.distance << endl;
 				}
 			}
 			else 
 			{
-				std::cerr << "Error opening file\n";
+				//std::cerr << "Error opening file(router.txt)\n";
 			}
+
+			outputFile.close();
 		}
 
 		
@@ -248,6 +262,11 @@ class Router
 
 		bool exists_in_devices(int device_ip)
 		{
+			if (this->devices.empty())
+			{
+				return false;
+			}
+
 			for (Device d : this->devices)
 			{
 				if (d.ip_addr == device_ip)

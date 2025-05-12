@@ -15,14 +15,16 @@ class Interface
 		int nbr_ip_addr;
 		int nbr_router_id;
 		short type;
+		int link_cost;
 
-		Interface(int own_ip_addr, int nbr_ip_addr, int interface_id, int nbr_router_id, short type)
+		Interface(int own_ip_addr, int nbr_ip_addr, int interface_id, int nbr_router_id, short type, int link_cost)
 		{
 			this->own_ip_addr = own_ip_addr;
 			this->nbr_ip_addr = nbr_ip_addr;
 			this->interface_id = interface_id;
 			this->nbr_router_id = nbr_router_id;
 			this->type = type;
+			this->link_cost = link_cost;
 		}
 
 		void print_info()

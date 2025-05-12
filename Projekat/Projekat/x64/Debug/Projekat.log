@@ -1,0 +1,14 @@
+﻿  Interface.hpp
+  Projekat.cpp
+C:\Users\Ivan\Desktop\Diplomski-Projekat - 2\Projekat\Projekat\Comunication.hpp(57,28): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\Ivan\Desktop\Diplomski-Projekat - 2\Projekat\Projekat\Comunication.hpp(259,1): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Ivan\Desktop\Diplomski-Projekat - 2\Projekat\Projekat\Comunication.hpp(363,1): warning C4267: 'argument': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Ivan\Desktop\Diplomski-Projekat - 2\Projekat\Projekat\Comunication.hpp(494,35): warning C4244: 'argument': conversion from '_Rep' to 'unsigned int', possible loss of data
+          with
+          [
+              _Rep=__int64
+          ]
+C:\Users\Ivan\Desktop\Diplomski-Projekat - 2\Projekat\Projekat\Comunication.hpp(503,22): warning C4244: 'argument': conversion from 'double' to 'DWORD', possible loss of data
+  The contents of <filesystem> are available only with C++17 or later.
+  Generating Code...
+  Projekat.vcxproj -> C:\Users\Ivan\Desktop\Diplomski-Projekat - 2\Projekat\x64\Debug\Projekat.exe

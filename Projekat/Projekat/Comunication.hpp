@@ -20,8 +20,8 @@
 #define OUTGOING_BUFFER_SIZE 2048
 
 #define SERVER_IP_ADDERESS "127.0.0.1"
-#define ITERATIONS 10
-#define MIN_ITERATIONS 5
+#define ITERATIONS 30
+#define MIN_ITERATIONS 15
 #define MODE_INDICATOR 999
 #define IP_MESSAGE "Aloha!"
 
@@ -48,6 +48,14 @@
         //otherwise, it is a "sending data" mode 
 		static void send_recv(Router& router, int source_ip, int destination_ip)
 		{ 
+            fstream f("routers_info.txt");
+            char buff[MAX_BUFF] = { 0 };
+            f.getline(buff, 159, '\n');
+            f.close();
+            string routers_mbr_str(buff);
+            int routers_nbr = atoi(routers_mbr_str.c_str());
+            int iterations = routers_nbr * 1.4 + 6;
+            int min_iterations = iterations / 2 + 1;
             mtx.lock();
             int mode = source_ip + destination_ip;
             hrc_t::time_point tp = hrc_t::now();   
@@ -57,10 +65,10 @@
             reset_received(received, router);
             default_random_engine generator;
 
-            hrc_t::duration d = hrc_t::now() - tp;
-            generator.seed(d.count());
-            uniform_real_distribution<double> dist(0, 50);
-            auto rd = std::bind(dist, generator);
+           //hrc_t::duration d = hrc_t::now() - tp;
+           //generator.seed(d.count());
+           //uniform_real_distribution<double> dist(0, 200);
+           //auto rd = std::bind(dist, generator);
 
             // Server address
             sockaddr_in serverAddress;
@@ -130,14 +138,18 @@
             chrono::high_resolution_clock::time_point start = chrono::high_resolution_clock::now();
             mtx.unlock();
             Sleep(SERVER_SLEEP_TIME);
+
+            chrono::high_resolution_clock::time_point iteration_start = chrono::high_resolution_clock::now();
+
             while (1)
             {        
               
                 /*If source_ip is a "router's device", and if there were enough iterations
                   router sends message to the destination
                */
-                if(router.exists_in_devices(source_ip) && iteration > MIN_ITERATIONS && once)
+                if(router.exists_in_devices(source_ip) && iteration > min_iterations && once)
                 {
+                    mtx.lock();
                     string log_message = "Router: " + to_string(router.router_id) + "\n";
                     log_message += "Source: " + Conversions::convert_ipv4_decimal_to_string(source_ip) + "\n";
                     string message = router.form_ip_packet(destination_ip, source_ip, IP_MESSAGE);
@@ -146,8 +158,14 @@
                     cout << "Source: " << Conversions::convert_ipv4_decimal_to_string(source_ip) << endl;
                     send_to_destinaion(destination_ip, message, router, log_message);
                     once = false;
+                    mtx.unlock();
                 }
 
+                //If router doesn't have any neighbors, it shuts down immediately
+                if (router.interfaces.size() == 1)
+                {
+                    break;
+                }
 
                 if (send_ready)
                 {
@@ -176,7 +194,7 @@
                 timeVal.tv_usec = 0;
 
                 iResult = select(0 /* ignored */, &set, NULL, NULL, &timeVal);
-
+ 
                 // lets check if there was an error during select
                 if (iResult == SOCKET_ERROR)
                 {
@@ -188,7 +206,13 @@
                 if (iResult == 0)
                 {
                     // there are no ready sockets, sleep for a while and check again
-                    Sleep(SERVER_SLEEP_TIME);
+                    chrono::high_resolution_clock::duration d = chrono::high_resolution_clock::now() - iteration_start;
+                    if (chrono::duration_cast<chrono::milliseconds>(d).count() > 2000)
+                    {
+                        //If there is no any messages for 3 seconds, shutdown server 
+                        break;
+                    }
+                    Sleep(2 * SERVER_SLEEP_TIME);
                     continue;
                 }
 
@@ -198,6 +222,7 @@
                     0,
                     (LPSOCKADDR)&clientAddress,
                     &sockAddrLen);
+
 
                 if (iResult == SOCKET_ERROR)
                 {
@@ -213,15 +238,19 @@
                 int clientPort = ntohs((u_short)clientAddress.sin_port);
 
                 int id = atoi(accessBuffer);
+              
                 if (id == MODE_INDICATOR)
                 {
                     //Router parse and forward message with MODE_INDICATOR header
                     //If destination in message is one of devices in this router's LAN
                     //message will be printed
+                    mtx.lock();
                     parse_message(accessBuffer, router);
+                    mtx.unlock();
                 }
                 else
                 {
+                   
                     messages.push_back(accessBuffer);
 
                     set_received(id, received);
@@ -238,25 +267,31 @@
                             }
                         }
                     }
-
-                    if (recv_counter == 0)
+                    chrono::high_resolution_clock::duration d = chrono::high_resolution_clock::now() - iteration_start;
+                    
+                    if (recv_counter == 0 || (chrono::duration_cast<chrono::milliseconds>(d).count()) > 800)
                     {
+                        
                         //If router has received message from all its neighbours, it starts 
                         //updating its routing table
                         router.update(messages);
+                        mtx.lock();
+                        printf("\nRouter %d has just updated its routing table.", router.router_id);
+                        mtx.unlock();
                         router.export_routing_table(chrono::high_resolution_clock::now() - start);
                         reset_received(received, router);
                         iteration++;
-
+                        iteration_start = chrono::high_resolution_clock::now();
                         //after receiving messages from everyone, it will resend its table to all neighbors
                         send_ready = true;
 
-                        if (iteration == ITERATIONS)
+                        if (iteration == iterations)
                         {
                             break;
                         }
                     }
-                }            
+                }     
+ 
             }
 
             // if we are here, it means that server is shutting down
@@ -275,8 +310,10 @@
                 return;
             }
 
-            printf("Server %d successfully shut down.\n",router.router_id);
-            return ;
+            mtx.lock();
+            cout << "\n\nServer " << router.router_id << " successfully shut down.\n";
+            mtx.unlock();
+            return;
         		
 		}
 
@@ -360,24 +397,27 @@
             }
             int lan_ip;
 
+
             for (Interface i : router.interfaces)
             {
                 if (i.type == 0)
                 {
                   
                     lan_ip = i.own_ip_addr;
-                    cout << "Router: " << router.router_id << endl;
+                    cout << "\n\nRouter: " << router.router_id << endl;
                     cout << "Lan: " << Conversions::convert_ipv4_decimal_to_string(lan_ip)<< endl;
                 }
             }
+            
             string log_message = "Router: " + to_string(router.router_id) + "\n";
             log_message += "Lan: " + Conversions::convert_ipv4_decimal_to_string(lan_ip)+ "\n";
             send_to_destinaion(destination_ip, message, router, log_message);
-
+           
         }
 
         static void send_to_destinaion(int destination_ip, string message, Router& router, string log_message)
         {
+
             int next_hop = 0;
             bool find = false;
             for (Route r : router.routing_table)
@@ -451,7 +491,7 @@
             default_random_engine generator;
             hrc_t::duration d = hrc_t::now() - tp;
             generator.seed(d.count());
-            uniform_real_distribution<double> dist(50, 50);
+            uniform_real_distribution<double> dist(0, 50);
             auto rd = std::bind(dist, generator);
 
             //!!!
@@ -459,7 +499,7 @@
             //This can be more deterministic if every router also have timer 
             //or keeps record who sent message to whom
 
-            Sleep(200 + rd());
+            Sleep(40 + rd());
 
             for (int i = 0; i < router.interfaces.size(); i++)
             {
@@ -499,7 +539,7 @@
             }
             else
             {
-                std::cerr << "Error opening file\n";
+                //std::cerr << "Error opening file\n";
             }
         }
 

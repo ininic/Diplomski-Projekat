@@ -30,7 +30,7 @@ class Route
 				 << setw(13) << left<< "Subnet mask: " << setw(15) << left<< Conversions::convert_ipv4_decimal_to_string(this->subnet_mask)
 				 << setw(11) << left << "Next hop: " << setw(13) << left << ((this->next_hop_ip != 0) ? Conversions::convert_ipv4_decimal_to_string(this->next_hop_ip) : "On-link")
 				 << setw(11) << left << "Interface: " << setw(13) << left << Conversions::convert_ipv4_decimal_to_string(this->interface_ip)
-				 << setw(11) << left <<" Distance: "  << setw(3) << left <<  this->distance << endl;
+				 << setw(11) << left <<" Metric: "  << setw(3) << left <<  this->distance << endl;
 		}
 };
 

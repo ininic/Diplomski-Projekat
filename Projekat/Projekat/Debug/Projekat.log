@@ -1,1 +1,23 @@
-﻿
+﻿  Interface.hpp
+  Projekat.cpp
+C:\Users\Ivan\Desktop\Diplomski-Projekat - 2\Projekat\Projekat\Router.hpp(43,22): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Ivan\Desktop\Diplomski-Projekat - 2\Projekat\Projekat\Router.hpp(139,22): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Ivan\Desktop\Diplomski-Projekat - 2\Projekat\Projekat\Router.hpp(168,24): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Ivan\Desktop\Diplomski-Projekat - 2\Projekat\Projekat\Router.hpp(189,22): warning C4018: '<=': signed/unsigned mismatch
+C:\Users\Ivan\Desktop\Diplomski-Projekat - 2\Projekat\Projekat\Router.hpp(219,22): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Ivan\Desktop\Diplomski-Projekat - 2\Projekat\Projekat\Comunication.hpp(57,28): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+C:\Users\Ivan\Desktop\Diplomski-Projekat - 2\Projekat\Projekat\Comunication.hpp(260,39): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Ivan\Desktop\Diplomski-Projekat - 2\Projekat\Projekat\Comunication.hpp(493,35): warning C4244: 'argument': conversion from '_Rep' to 'unsigned int', possible loss of data
+          with
+          [
+              _Rep=__int64
+          ]
+C:\Users\Ivan\Desktop\Diplomski-Projekat - 2\Projekat\Projekat\Comunication.hpp(502,22): warning C4244: 'argument': conversion from 'double' to 'DWORD', possible loss of data
+C:\Users\Ivan\Desktop\Diplomski-Projekat - 2\Projekat\Projekat\Comunication.hpp(504,31): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Ivan\Desktop\Diplomski-Projekat - 2\Projekat\Projekat\Comunication.hpp(515,31): warning C4018: '<': signed/unsigned mismatch
+  The contents of <filesystem> are available only with C++17 or later.
+C:\Users\Ivan\Desktop\Diplomski-Projekat - 2\Projekat\Projekat\Simulation.hpp(41,31): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Ivan\Desktop\Diplomski-Projekat - 2\Projekat\Projekat\Simulation.hpp(56,31): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Ivan\Desktop\Diplomski-Projekat - 2\Projekat\Projekat\Simulation.hpp(65,31): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
+  Projekat.vcxproj -> C:\Users\Ivan\Desktop\Diplomski-Projekat - 2\Projekat\Debug\Projekat.exe

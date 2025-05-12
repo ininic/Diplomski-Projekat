@@ -7,9 +7,9 @@
 #include "Network.hpp"
 #include "Comunication.hpp"
 
-#define SOURCE_IP_ADDR "223.1.4.1"
-#define SOURCE_ROUTER_ID 104
-#define DESTINATION_IP_ADDR "223.1.1.1"
+#define SOURCE_IP_ADDR "106.1.1.2"
+#define SOURCE_ROUTER_ID 106
+#define DESTINATION_IP_ADDR "108.1.1.2"
 
 
 using namespace std;
@@ -20,15 +20,29 @@ class Simulation
       
 		static void run_simulation(Network& network)
 		{
-            vector<thread> threads;
+            fstream f("src_dest.txt");
+            char buff[MAX_BUFF] = { 0 };
+            f.getline(buff, 159, '\n');
+            string source_ip_str(buff);
+            f.getline(buff, 159, '\n');
+            string destination_ip_str(buff);
+            f.close();
+            regex r("(\\d+).(\\d+).(\\d+).(\\d+)");
+            smatch m;
+            int source_router_id = 106;
+            if (regex_search(source_ip_str, m, r))
+            {
+                source_router_id = atoi(m[1].str().c_str());            
+            }      
 
+            vector<thread> threads;
             remove_files(network);
 
             for (int i = 0; i < network.routers.size(); i++)
             {
-                if (network.routers[i].router_id == SOURCE_ROUTER_ID)
+                if (network.routers[i].router_id == source_router_id)
                 {
-                    thread t(Comunication::send_recv, ref(network.routers[i]), Conversions::convert_string_tp_ipv4_decimal(SOURCE_IP_ADDR), Conversions::convert_string_tp_ipv4_decimal(DESTINATION_IP_ADDR));
+                    thread t(Comunication::send_recv, ref(network.routers[i]), Conversions::convert_string_tp_ipv4_decimal(source_ip_str), Conversions::convert_string_tp_ipv4_decimal(destination_ip_str));
                     threads.push_back(move(t));
                 }
                 else
