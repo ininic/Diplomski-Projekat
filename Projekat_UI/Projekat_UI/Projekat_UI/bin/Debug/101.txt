@@ -1,89 +1,90 @@
-233
-Destination: 0.0.0.0        Subnet mask: 0.0.0.0         Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   0    
+261
+Destination: 0.0.0.0        Subnet mask: 0.0.0.0         Next hop: 102.1.4.1      Interface: 101.1.4.1       Metric:   0    
 Destination: 101.1.1.0      Subnet mask: 255.255.255.0   Next hop: On-link        Interface: 101.1.1.1       Metric:   0    
-Destination: 105.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   23   
-Destination: 102.1.1.0      Subnet mask: 255.255.255.0   Next hop: 102.1.4.1      Interface: 101.1.2.1       Metric:   2222 
-331
-Destination: 0.0.0.0        Subnet mask: 0.0.0.0         Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   0    
+Destination: 102.1.1.0      Subnet mask: 255.255.255.0   Next hop: 102.1.4.1      Interface: 101.1.4.1       Metric:   32   
+Destination: 105.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   44   
+Destination: 104.1.1.0      Subnet mask: 255.255.255.0   Next hop: 104.1.2.1      Interface: 101.1.2.1       Metric:   33   
+329
+Destination: 0.0.0.0        Subnet mask: 0.0.0.0         Next hop: 102.1.4.1      Interface: 101.1.4.1       Metric:   0    
 Destination: 101.1.1.0      Subnet mask: 255.255.255.0   Next hop: On-link        Interface: 101.1.1.1       Metric:   0    
-Destination: 105.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   23   
-Destination: 102.1.1.0      Subnet mask: 255.255.255.0   Next hop: 102.1.4.1      Interface: 101.1.2.1       Metric:   2222 
-Destination: 104.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   26   
-Destination: 103.1.1.0      Subnet mask: 255.255.255.0   Next hop: 102.1.4.1      Interface: 101.1.2.1       Metric:   2244 
-615
-Destination: 0.0.0.0        Subnet mask: 0.0.0.0         Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   0    
+Destination: 102.1.1.0      Subnet mask: 255.255.255.0   Next hop: 102.1.4.1      Interface: 101.1.4.1       Metric:   32   
+Destination: 105.1.1.0      Subnet mask: 255.255.255.0   Next hop: 104.1.2.1      Interface: 101.1.2.1       Metric:   35   
+Destination: 104.1.1.0      Subnet mask: 255.255.255.0   Next hop: 104.1.2.1      Interface: 101.1.2.1       Metric:   33   
+Destination: 103.1.1.0      Subnet mask: 255.255.255.0   Next hop: 102.1.4.1      Interface: 101.1.4.1       Metric:   35   
+609
+Destination: 0.0.0.0        Subnet mask: 0.0.0.0         Next hop: 102.1.4.1      Interface: 101.1.4.1       Metric:   0    
 Destination: 101.1.1.0      Subnet mask: 255.255.255.0   Next hop: On-link        Interface: 101.1.1.1       Metric:   0    
-Destination: 105.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   23   
-Destination: 102.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   59   
-Destination: 104.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   26   
-Destination: 103.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   29   
-716
-Destination: 0.0.0.0        Subnet mask: 0.0.0.0         Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   0    
+Destination: 102.1.1.0      Subnet mask: 255.255.255.0   Next hop: 102.1.4.1      Interface: 101.1.4.1       Metric:   32   
+Destination: 105.1.1.0      Subnet mask: 255.255.255.0   Next hop: 104.1.2.1      Interface: 101.1.2.1       Metric:   35   
+Destination: 104.1.1.0      Subnet mask: 255.255.255.0   Next hop: 104.1.2.1      Interface: 101.1.2.1       Metric:   33   
+Destination: 103.1.1.0      Subnet mask: 255.255.255.0   Next hop: 102.1.4.1      Interface: 101.1.4.1       Metric:   35   
+788
+Destination: 0.0.0.0        Subnet mask: 0.0.0.0         Next hop: 102.1.4.1      Interface: 101.1.4.1       Metric:   0    
 Destination: 101.1.1.0      Subnet mask: 255.255.255.0   Next hop: On-link        Interface: 101.1.1.1       Metric:   0    
-Destination: 105.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   23   
-Destination: 102.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   51   
-Destination: 104.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   26   
-Destination: 103.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   29   
-1025
-Destination: 0.0.0.0        Subnet mask: 0.0.0.0         Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   0    
+Destination: 102.1.1.0      Subnet mask: 255.255.255.0   Next hop: 102.1.4.1      Interface: 101.1.4.1       Metric:   32   
+Destination: 105.1.1.0      Subnet mask: 255.255.255.0   Next hop: 104.1.2.1      Interface: 101.1.2.1       Metric:   35   
+Destination: 104.1.1.0      Subnet mask: 255.255.255.0   Next hop: 104.1.2.1      Interface: 101.1.2.1       Metric:   33   
+Destination: 103.1.1.0      Subnet mask: 255.255.255.0   Next hop: 102.1.4.1      Interface: 101.1.4.1       Metric:   35   
+985
+Destination: 0.0.0.0        Subnet mask: 0.0.0.0         Next hop: 102.1.4.1      Interface: 101.1.4.1       Metric:   0    
 Destination: 101.1.1.0      Subnet mask: 255.255.255.0   Next hop: On-link        Interface: 101.1.1.1       Metric:   0    
-Destination: 105.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   23   
-Destination: 102.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   51   
-Destination: 104.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   26   
-Destination: 103.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   29   
-1143
-Destination: 0.0.0.0        Subnet mask: 0.0.0.0         Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   0    
+Destination: 102.1.1.0      Subnet mask: 255.255.255.0   Next hop: 102.1.4.1      Interface: 101.1.4.1       Metric:   32   
+Destination: 105.1.1.0      Subnet mask: 255.255.255.0   Next hop: 104.1.2.1      Interface: 101.1.2.1       Metric:   35   
+Destination: 104.1.1.0      Subnet mask: 255.255.255.0   Next hop: 104.1.2.1      Interface: 101.1.2.1       Metric:   33   
+Destination: 103.1.1.0      Subnet mask: 255.255.255.0   Next hop: 102.1.4.1      Interface: 101.1.4.1       Metric:   35   
+1210
+Destination: 0.0.0.0        Subnet mask: 0.0.0.0         Next hop: 102.1.4.1      Interface: 101.1.4.1       Metric:   0    
 Destination: 101.1.1.0      Subnet mask: 255.255.255.0   Next hop: On-link        Interface: 101.1.1.1       Metric:   0    
-Destination: 105.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   23   
-Destination: 102.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   51   
-Destination: 104.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   26   
-Destination: 103.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   29   
-1440
-Destination: 0.0.0.0        Subnet mask: 0.0.0.0         Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   0    
+Destination: 102.1.1.0      Subnet mask: 255.255.255.0   Next hop: 102.1.4.1      Interface: 101.1.4.1       Metric:   32   
+Destination: 105.1.1.0      Subnet mask: 255.255.255.0   Next hop: 104.1.2.1      Interface: 101.1.2.1       Metric:   35   
+Destination: 104.1.1.0      Subnet mask: 255.255.255.0   Next hop: 104.1.2.1      Interface: 101.1.2.1       Metric:   33   
+Destination: 103.1.1.0      Subnet mask: 255.255.255.0   Next hop: 102.1.4.1      Interface: 101.1.4.1       Metric:   35   
+1413
+Destination: 0.0.0.0        Subnet mask: 0.0.0.0         Next hop: 102.1.4.1      Interface: 101.1.4.1       Metric:   0    
 Destination: 101.1.1.0      Subnet mask: 255.255.255.0   Next hop: On-link        Interface: 101.1.1.1       Metric:   0    
-Destination: 105.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   23   
-Destination: 102.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   51   
-Destination: 104.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   26   
-Destination: 103.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   29   
-1549
-Destination: 0.0.0.0        Subnet mask: 0.0.0.0         Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   0    
+Destination: 102.1.1.0      Subnet mask: 255.255.255.0   Next hop: 102.1.4.1      Interface: 101.1.4.1       Metric:   32   
+Destination: 105.1.1.0      Subnet mask: 255.255.255.0   Next hop: 104.1.2.1      Interface: 101.1.2.1       Metric:   35   
+Destination: 104.1.1.0      Subnet mask: 255.255.255.0   Next hop: 104.1.2.1      Interface: 101.1.2.1       Metric:   33   
+Destination: 103.1.1.0      Subnet mask: 255.255.255.0   Next hop: 102.1.4.1      Interface: 101.1.4.1       Metric:   35   
+1656
+Destination: 0.0.0.0        Subnet mask: 0.0.0.0         Next hop: 102.1.4.1      Interface: 101.1.4.1       Metric:   0    
 Destination: 101.1.1.0      Subnet mask: 255.255.255.0   Next hop: On-link        Interface: 101.1.1.1       Metric:   0    
-Destination: 105.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   23   
-Destination: 102.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   51   
-Destination: 104.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   26   
-Destination: 103.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   29   
-1760
-Destination: 0.0.0.0        Subnet mask: 0.0.0.0         Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   0    
+Destination: 102.1.1.0      Subnet mask: 255.255.255.0   Next hop: 102.1.4.1      Interface: 101.1.4.1       Metric:   32   
+Destination: 105.1.1.0      Subnet mask: 255.255.255.0   Next hop: 104.1.2.1      Interface: 101.1.2.1       Metric:   35   
+Destination: 104.1.1.0      Subnet mask: 255.255.255.0   Next hop: 104.1.2.1      Interface: 101.1.2.1       Metric:   33   
+Destination: 103.1.1.0      Subnet mask: 255.255.255.0   Next hop: 102.1.4.1      Interface: 101.1.4.1       Metric:   35   
+1885
+Destination: 0.0.0.0        Subnet mask: 0.0.0.0         Next hop: 102.1.4.1      Interface: 101.1.4.1       Metric:   0    
 Destination: 101.1.1.0      Subnet mask: 255.255.255.0   Next hop: On-link        Interface: 101.1.1.1       Metric:   0    
-Destination: 105.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   23   
-Destination: 102.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   51   
-Destination: 104.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   26   
-Destination: 103.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   29   
-2004
-Destination: 0.0.0.0        Subnet mask: 0.0.0.0         Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   0    
+Destination: 102.1.1.0      Subnet mask: 255.255.255.0   Next hop: 102.1.4.1      Interface: 101.1.4.1       Metric:   32   
+Destination: 105.1.1.0      Subnet mask: 255.255.255.0   Next hop: 104.1.2.1      Interface: 101.1.2.1       Metric:   35   
+Destination: 104.1.1.0      Subnet mask: 255.255.255.0   Next hop: 104.1.2.1      Interface: 101.1.2.1       Metric:   33   
+Destination: 103.1.1.0      Subnet mask: 255.255.255.0   Next hop: 102.1.4.1      Interface: 101.1.4.1       Metric:   35   
+2128
+Destination: 0.0.0.0        Subnet mask: 0.0.0.0         Next hop: 102.1.4.1      Interface: 101.1.4.1       Metric:   0    
 Destination: 101.1.1.0      Subnet mask: 255.255.255.0   Next hop: On-link        Interface: 101.1.1.1       Metric:   0    
-Destination: 105.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   23   
-Destination: 102.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   51   
-Destination: 104.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   26   
-Destination: 103.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   29   
-2129
-Destination: 0.0.0.0        Subnet mask: 0.0.0.0         Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   0    
+Destination: 102.1.1.0      Subnet mask: 255.255.255.0   Next hop: 102.1.4.1      Interface: 101.1.4.1       Metric:   32   
+Destination: 105.1.1.0      Subnet mask: 255.255.255.0   Next hop: 104.1.2.1      Interface: 101.1.2.1       Metric:   35   
+Destination: 104.1.1.0      Subnet mask: 255.255.255.0   Next hop: 104.1.2.1      Interface: 101.1.2.1       Metric:   33   
+Destination: 103.1.1.0      Subnet mask: 255.255.255.0   Next hop: 102.1.4.1      Interface: 101.1.4.1       Metric:   35   
+2393
+Destination: 0.0.0.0        Subnet mask: 0.0.0.0         Next hop: 102.1.4.1      Interface: 101.1.4.1       Metric:   0    
 Destination: 101.1.1.0      Subnet mask: 255.255.255.0   Next hop: On-link        Interface: 101.1.1.1       Metric:   0    
-Destination: 105.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   23   
-Destination: 102.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   51   
-Destination: 104.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   26   
-Destination: 103.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   29   
-2341
-Destination: 0.0.0.0        Subnet mask: 0.0.0.0         Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   0    
+Destination: 102.1.1.0      Subnet mask: 255.255.255.0   Next hop: 102.1.4.1      Interface: 101.1.4.1       Metric:   32   
+Destination: 105.1.1.0      Subnet mask: 255.255.255.0   Next hop: 104.1.2.1      Interface: 101.1.2.1       Metric:   35   
+Destination: 104.1.1.0      Subnet mask: 255.255.255.0   Next hop: 104.1.2.1      Interface: 101.1.2.1       Metric:   33   
+Destination: 103.1.1.0      Subnet mask: 255.255.255.0   Next hop: 102.1.4.1      Interface: 101.1.4.1       Metric:   35   
+2652
+Destination: 0.0.0.0        Subnet mask: 0.0.0.0         Next hop: 102.1.4.1      Interface: 101.1.4.1       Metric:   0    
 Destination: 101.1.1.0      Subnet mask: 255.255.255.0   Next hop: On-link        Interface: 101.1.1.1       Metric:   0    
-Destination: 105.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   23   
-Destination: 102.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   51   
-Destination: 104.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   26   
-Destination: 103.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   29   
-2544
-Destination: 0.0.0.0        Subnet mask: 0.0.0.0         Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   0    
+Destination: 102.1.1.0      Subnet mask: 255.255.255.0   Next hop: 102.1.4.1      Interface: 101.1.4.1       Metric:   32   
+Destination: 105.1.1.0      Subnet mask: 255.255.255.0   Next hop: 104.1.2.1      Interface: 101.1.2.1       Metric:   35   
+Destination: 104.1.1.0      Subnet mask: 255.255.255.0   Next hop: 104.1.2.1      Interface: 101.1.2.1       Metric:   33   
+Destination: 103.1.1.0      Subnet mask: 255.255.255.0   Next hop: 102.1.4.1      Interface: 101.1.4.1       Metric:   35   
+2932
+Destination: 0.0.0.0        Subnet mask: 0.0.0.0         Next hop: 102.1.4.1      Interface: 101.1.4.1       Metric:   0    
 Destination: 101.1.1.0      Subnet mask: 255.255.255.0   Next hop: On-link        Interface: 101.1.1.1       Metric:   0    
-Destination: 105.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   23   
-Destination: 102.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   51   
-Destination: 104.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   26   
-Destination: 103.1.1.0      Subnet mask: 255.255.255.0   Next hop: 105.1.3.1      Interface: 101.1.3.1       Metric:   29   
+Destination: 102.1.1.0      Subnet mask: 255.255.255.0   Next hop: 102.1.4.1      Interface: 101.1.4.1       Metric:   32   
+Destination: 105.1.1.0      Subnet mask: 255.255.255.0   Next hop: 104.1.2.1      Interface: 101.1.2.1       Metric:   35   
+Destination: 104.1.1.0      Subnet mask: 255.255.255.0   Next hop: 104.1.2.1      Interface: 101.1.2.1       Metric:   33   
+Destination: 103.1.1.0      Subnet mask: 255.255.255.0   Next hop: 102.1.4.1      Interface: 101.1.4.1       Metric:   35   
